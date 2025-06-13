@@ -24,13 +24,43 @@ const defaultContest = {
   minTeamSize: '',
   maxTeamSize: '',
   teamCondition: '',
-  hasPenalty: '',
+  hasPenalty: false,
   rateMethod: '',
   resultVisibility: '',
   resultPublishing: '',
   standingStyle: '',
   questionType: '',
 };
+// const defaultContest = {
+//   name: 'Global Code Championship 2025',
+//   description: 'An international programming contest open to all regions. Solve problems, win prizes, and gain recognition. Supports Markdown formatting.',
+//   banner: 'https://example.com/images/contest-banner.jpg',
+//   image: 'https://example.com/images/contest-logo.png',
+//   publishDate: '2025-06-15T00:00',
+//   registrationEndDate: '2025-06-30T23:59',
+//   startDateTime: '2025-07-05T09:00',
+//   period: {
+//     value: 3,
+//     unit: 'days',
+//   },
+//   maxContestants: 500,
+//   isOnline: true,
+//   regions: ['Global', 'MENA', 'Africa'],
+//   category: 'Programming',
+//   organizedInsidePlatform: 'inside',
+//   externalLink: '',
+//   externalMessage: '',
+//   minTeamSize: 2,
+//   maxTeamSize: 4,
+//   teamCondition: 'sameRegion',
+//   hasPenalty: true,
+//   rateMethod: 'time',
+//   resultVisibility: 'realTime',
+//   resultPublishing: 'automatic',
+//   standingStyle: 'text',
+//   questionType: 'form',
+// };
+
 
 const allRegions = ['Global', 'MENA', 'Africa', 'Gulf Countries', 'Arab', 'Egypt', 'Saudi Arabia'];
 const testCategories = ['Math', 'Science', 'Coding', 'Design'];
@@ -115,19 +145,19 @@ export default function CreateContestPage() {
     period: { ...f.period, value: Math.max(1, f.period.value - 1) },
   }));
 
-  const handleSubmit = async () => {
-    const body = { ...form, step: 0 };
-    const res = await fetch('/api/contests', {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json' },
-    });
-    if (res.ok) {
-      const saved = await res.json();
-      setContestId(saved._id);
-      setStep(1);
-    }
-  };
+  // const handleSubmit = async () => {
+  //   const body = { ...form, step: 0 };
+  //   const res = await fetch('/api/contests', {
+  //     method: 'POST',
+  //     body: JSON.stringify(body),
+  //     headers: { 'Content-Type': 'application/json' },
+  //   });
+  //   if (res.ok) {
+  //     const saved = await res.json();
+  //     setContestId(saved._id);
+  //     setStep(1);
+  //   }
+  // };
 
 
 
@@ -199,32 +229,19 @@ export default function CreateContestPage() {
 
 
   const handleFinalSubmit = async () => {
-    try {
-      const body = {
-        ...form,
-        sponsors: selectedSponsors,
-        organizations: selectedOrganizations,
-      };
+    const res = await fetch('/api/contests', {
+      method: 'POST',
+      body: JSON.stringify(form),
+      headers: { 'Content-Type': 'application/json' },
+    });
 
-      const res = await fetch('/api/contests', {
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      if (res.ok) {
-        alert('Contest submitted successfully!');
-        // Optional: reset or redirect
-      } else {
-        alert('Submission failed.');
-      }
-    }catch(err) {
-      console.error(err);
-      alert('Something went wrong.');
+    if (res.ok) {
+      alert('Contest submitted successfully!');
+      // Optionally: reset form or redirect
+    } else {
+      alert('Submission failed.');
     }
   };
-
-
 
 
   // Sponsors Info

@@ -1,26 +1,25 @@
-// lib/mongoose.ts
 import mongoose from 'mongoose';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI in your .env file');
+  throw new Error('Please define MONGODB_URI in .env.local');
 }
 
-let cached = global.mongoose || { conn: null, promise: null };
-global.mongoose = cached;
+let isConnected = false;
 
 export async function connectToDatabase() {
-  if (cached.conn) return cached.conn;
+  if (isConnected) return;
 
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI, {
-      bufferCommands: false,
-    }).then((mongoose) => {
-      return mongoose;
+  try {
+    await mongoose.connect(MONGODB_URI, {
+      dbName: 'HashiraClubSystem', // optional but recommended
     });
-  }
 
-  cached.conn = await cached.promise;
-  return cached.conn;
+    isConnected = true;
+    console.log('[MongoDB] Connected');
+  } catch (err) {
+    console.error('[MongoDB] Connection failed:', err);
+    throw err;
+  }
 }

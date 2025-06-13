@@ -5,45 +5,29 @@ const ContestSchema = new Schema({
   description: { type: String, required: true },
   banner: { type: String, required: true },
   image: { type: String, required: true },
-  publishDate: { type: Date, required: true },
-  registrationEndDate: { type: Date, required: true },
+  publishDate: { type: Date },
+  registrationEndDate: { type: Date },
   startDateTime: { type: Date, required: true },
   period: {
     value: { type: Number, required: true },
-    unit: { type: String, enum: ['halfHours', 'days', 'weeks'], required: true },
+    unit: { type: String, required: true },
   },
   maxContestants: { type: Number, required: true },
-  online: { type: Boolean, required: true },
-  regions: [{ type: String, required: true }],
+  isOnline: { type: Boolean, required: true },
+  regions: [{ type: String }],
   category: { type: String, required: true },
-  sponsors: [{ type: Schema.Types.ObjectId, ref: 'Sponsor' }],
-  organizations: [{ type: Schema.Types.ObjectId, ref: 'Organization' }],
   organizedInsidePlatform: { type: String, enum: ['inside', 'outside'], required: true },
-  externalLink: { type: String },
-  externalMessage: { type: String },
-  step: { type: Number, default: 0 },
-  minTeamSize: { type: Number, required: true },
-  maxTeamSize: { type: Number, required: true },
-  teamCondition: {
-    type: String,
-    enum: ['sameAssociation', 'sameRegion', 'sameCountry', 'any'],
-    required: true
-  },
-  hasPenalty: { type: Boolean, default: true, required: true },
-  rateMethod: { type: String, enum: ['timestamp', 'correctSubmissions'], required: true },
-  resultVisibility: { type: String, enum: ['realTime', 'endOfContest'], required: true },
-  resultPublishing: { type: String, enum: ['manual', 'automatic'], required: true },
-  standingStyle: {
-    type: String,
-    enum: ['text', 'numbers', 'colorsFull', 'colorsSimple'],
-    required: true
-  },
-  questionType: {
-    type: String,
-    enum: ['form', 'file', 'mcq'],
-    required: true,
-  },
+  externalLink: String,
+  externalMessage: String,
+  minTeamSize: Number,
+  maxTeamSize: Number,
+  teamCondition: String,
+  hasPenalty: Boolean,
+  rateMethod: String,
+  resultVisibility: String,
+  resultPublishing: String,
+  standingStyle: String,
+  questionType: String,
 }, { timestamps: true });
 
-
-export const Contest = mongoose.models.Contest || mongoose.model('Contest', ContestSchema);
+export default mongoose.models.Contest || mongoose.model('Contest', ContestSchema);
