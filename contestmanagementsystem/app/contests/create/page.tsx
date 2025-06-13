@@ -18,10 +18,23 @@ const defaultContest = {
   isOnline: true,
   regions: [],
   category: '',
+  organizedInsidePlatform: '',
+  externalLink: '',
+  externalMessage: '',
+  minTeamSize: '',
+  maxTeamSize: '',
+  teamCondition: '',
+  hasPenalty: '',
+  rateMethod: '',
+  resultVisibility: '',
+  resultPublishing: '',
+  standingStyle: '',
+  questionType: '',
 };
 
 const allRegions = ['Global', 'MENA', 'Africa', 'Gulf Countries', 'Arab', 'Egypt', 'Saudi Arabia'];
 const testCategories = ['Math', 'Science', 'Coding', 'Design'];
+
 
 export default function CreateContestPage() {
 
@@ -113,6 +126,101 @@ export default function CreateContestPage() {
       const saved = await res.json();
       setContestId(saved._id);
       setStep(1);
+    }
+  };
+
+
+
+  const validateStep = (step: number) => {
+    const errors: string[] = [];
+
+    if (step === 0) {
+      if (!form.name.trim()) errors.push("Name is required.");
+      if (!form.description.trim()) errors.push("Description is required.");
+      if (!form.banner) errors.push("Banner is required.");
+      if (!form.image) errors.push("Image is required.");
+    }
+
+    if (step === 1) {
+      if (form.online === null || form.online === undefined) errors.push("Contest type (online/offline) is required.");
+      if (!form.category) errors.push("Category is required.");
+      if (!form.regions.length) errors.push("At least one region must be selected.");
+      if (form.maxContestants < 1) errors.push("Max contestants must be at least 1.");
+    }
+
+    if (step === 2) {
+      const pub = new Date(form.publishDate);
+      const reg = new Date(form.registrationEndDate);
+      const start = new Date(form.startDateTime);
+
+      if (!form.publishDate) errors.push("Publish date is required.");
+      if (!form.registrationEndDate) errors.push("Registration end date is required.");
+      if (!form.startDateTime) errors.push("Start date & time is required.");
+
+      
+      if (form.durationValue < 1) errors.push("Duration must be at least 1 unit.");
+
+      if (form.publishDate && form.registrationEndDate && reg < pub)
+        errors.push("Registration end date cannot be before publish date.");
+
+      if (form.startDateTime && form.publishDate && new Date(form.startDateTime) < pub)
+        errors.push("Start time cannot be before publish date.");
+
+      if (form.startDateTime && form.registrationEndDate && new Date(form.startDateTime) < reg)
+        errors.push("Start time cannot be before registration end.");
+    }
+
+    if (step === 5) {
+      if (!form.organizedInsidePlatform) errors.push("You must choose if contest is internal or external.");
+    }
+
+    if (step === 6 && form.organizedInsidePlatform === "inside") {
+      if (!form.minTeamSize || form.minTeamSize < 1) errors.push("Minimum team size must be 1 or more.");
+      if (!form.maxTeamSize || form.maxTeamSize < form.minTeamSize)
+        errors.push("Maximum team size must be greater than or equal to minimum.");
+      if (!form.teamCondition) errors.push("Team condition is required.");
+    }
+
+    if (step === 7 && form.organizedInsidePlatform === "inside") {
+      if (!form.hasPenalty) errors.push("Penalty option is required.");
+      if (!form.rateMethod) errors.push("Rate method is required.");
+      if (!form.resultVisibility) errors.push("Result visibility option is required.");
+      if (!form.resultPublishing) errors.push("Result publishing option is required.");
+      if (!form.standingStyle) errors.push("Standing style option is required.");
+    }
+
+    if (step === 8 && form.organizedInsidePlatform === "inside") {
+      if (!form.questionType) errors.push("You must select a question type.");
+    }
+
+    return errors;
+  };
+
+
+
+  const handleFinalSubmit = async () => {
+    try {
+      const body = {
+        ...form,
+        sponsors: selectedSponsors,
+        organizations: selectedOrganizations,
+      };
+
+      const res = await fetch('/api/contests', {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (res.ok) {
+        alert('Contest submitted successfully!');
+        // Optional: reset or redirect
+      } else {
+        alert('Submission failed.');
+      }
+    }catch(err) {
+      console.error(err);
+      alert('Something went wrong.');
     }
   };
 
@@ -218,10 +326,9 @@ export default function CreateContestPage() {
   const goToStep3 = () => setStep(3);
   const goToStep4 = () => setStep(4);
   const goToStep5 = () => setStep(5);
-
-
-
-
+  const goToStep6 = () => setStep(6);
+  const goToStep7 = () => setStep(7);
+  const goToStep8 = () => setStep(8);
 
 
 
@@ -247,15 +354,36 @@ export default function CreateContestPage() {
 
               <div className="field">
                 <label className="label">Banner *</label>
-                <input className="input" type="file" name="banner" required />
+                <input
+                  className="input"
+                  type="text"
+                  name="banner"
+                  placeholder="Enter image URL for banner"
+                  value={form.banner}
+                  onChange={handleChange}
+                />
               </div>
 
               <div className="field">
                 <label className="label">Image *</label>
-                <input className="input" type="file" name="image" required />
+                <input
+                  className="input"
+                  type="text"
+                  name="image"
+                  placeholder="Enter image URL for logo"
+                  value={form.image}
+                  onChange={handleChange}
+                />
               </div>
 
-              <button className="button is-primary mt-4" onClick={handleSubmit}>Next</button>
+              <button className="button is-primary mt-4" onClick={() => {
+                  const errors = validateStep(0);
+                  if (errors.length) return alert(errors.join("\n"));
+                  setStep(1);
+                }}
+              >
+                Next
+              </button>
             </div>  
           )}
 
@@ -300,7 +428,14 @@ export default function CreateContestPage() {
 
               <div className="buttons mt-4">
                 <button className="button" onClick={goToStep0}>Back</button>
-                <button className="button is-primary" onClick={goToStep2}>Next</button>
+                <button className="button is-primary" onClick={() => {
+                    const errors = validateStep(1);
+                    if (errors.length) return alert(errors.join("\n"));
+                    setStep(2);
+                  }}
+                >
+                  Next
+                </button>
               </div>
             </div>
           )}
@@ -355,7 +490,13 @@ export default function CreateContestPage() {
 
               <div className="buttons mt-4">
                 <button className="button" onClick={goToStep1}>Back</button>
-                <button className="button is-primary" onClick={goToStep3}>Next</button>
+                <button className="button is-primary" onClick={() => {
+                    const errors = validateStep(2);
+                    if (errors.length) return alert(errors.join("\n"));
+                    setStep(3);
+                  }}
+                >
+                Next</button>
               </div>
             </div>
           )}
@@ -382,7 +523,13 @@ export default function CreateContestPage() {
               ))}
               <div className="buttons mt-4">
                 <button className="button" onClick={goToStep2}>Back</button>
-                <button className="button is-primary" onClick={goToStep4}>Next</button>
+                <button className="button is-primary" onClick={() => {
+                    const errors = validateStep(3);
+                    if (errors.length) return alert(errors.join("\n"));
+                    setStep(4);
+                  }}
+                >
+                Next</button>
               </div>
             </div>
           )}
@@ -405,6 +552,16 @@ export default function CreateContestPage() {
                     <input className="input" name="description" value={newSponsor.description} onChange={handleNewSponsorChange} />
                   </div>
                   <div className="field">
+                    <label className="label">Logo</label>
+                    <input
+                      className="input"
+                      type="text"
+                      placeholder="Enter sponsor logo URL"
+                      value={newSponsor.logo || ''}
+                      onChange={(e) => setNewSponsor((prev) => ({ ...prev, logo: e.target.value }))}
+                    />
+                  </div>
+                  <div className="field">
                     <label className="label">Facebook</label>
                     <input className="input" name="facebook" value={newSponsor.facebook} onChange={handleNewSponsorChange} />
                   </div>
@@ -416,7 +573,6 @@ export default function CreateContestPage() {
                     <label className="label">Website</label>
                     <input className="input" name="website" value={newSponsor.website} onChange={handleNewSponsorChange} />
                   </div>
-                  {/* Logo upload skipped for now */}
                 </section>
                 <footer className="modal-card-foot">
                   <button className="button is-success" onClick={submitNewSponsor}>Save</button>
@@ -456,7 +612,13 @@ export default function CreateContestPage() {
 
               <div className="buttons mt-4">
                 <button className="button" onClick={goToStep3}>Back</button>
-                <button className="button is-primary" onClick={goToStep5}>Next</button>
+                <button className="button is-primary" onClick={() => {
+                    const errors = validateStep(4);
+                    if (errors.length) return alert(errors.join("\n"));
+                    setStep(5);
+                  }}
+                >
+                Next</button>
               </div>
             </div>
           )}
@@ -494,31 +656,13 @@ export default function CreateContestPage() {
                   <div className="field">
                     <label className="label">Logo</label>
                     <div className="control">
-                      <div className="file has-name is-boxed">
-                        <label className="file-label">
-                          <input
-                            className="file-input"
-                            type="file"
-                            name="logo"
-                            accept="image/*"
-                            onChange={(e) =>
-                              setNewOrganization(prev => ({
-                                ...prev,
-                                logo: e.target.files ? e.target.files[0] : null,
-                              }))
-                            }
-                          />
-                          <span className="file-cta">
-                            <span className="file-icon">
-                              <i className="fas fa-upload"></i>
-                            </span>
-                            <span className="file-label">Choose a logo…</span>
-                          </span>
-                          <span className="file-name">
-                            {newOrganization.logo ? newOrganization.logo.name : 'No file selected'}
-                          </span>
-                        </label>
-                      </div>
+                      <input
+                        className="input"
+                        type="text"
+                        placeholder="Enter organization logo URL"
+                        value={newOrganization.logo || ''}
+                        onChange={(e) => setNewOrganization((prev) => ({ ...prev, logo: e.target.value }))}
+                      />
                     </div>
                   </div>
                 </section>
@@ -531,12 +675,292 @@ export default function CreateContestPage() {
           )}
 
           {step === 5 && (
-            <div>
+            <div className="box">
+              <h2 className="title is-3 has-text-centered">Organizing Mode</h2>
 
+              <div className="field">
+                <label className="label">The contest will take place in</label>
+                <div className="control">
+                  <div className="select is-fullwidth">
+                    <select
+                      name="organizedInsidePlatform"
+                      value={form.organizedInsidePlatform}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="">-- Please choose --</option>
+                      <option value="inside">Organized Inside the platform</option>
+                      <option value="outside">Organized externally</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="buttons mt-4">
+                <button className="button" onClick={goToStep4}>Back</button>
+                <button
+                  className="button is-primary"
+                  onClick={() => {
+                    const errors = validateStep(5);
+                    if (errors.length) return alert(errors.join("\n"));
+                    setStep(6);
+                  }}
+                >
+                  Next
+                </button>
+              </div>
             </div>
           )}
 
+          {step === 6 && form.organizedInsidePlatform === 'inside' && (
+            <div className="box">
+              <h2 className="title is-3 has-text-centered">Team Setup</h2>
 
+              <div className="field">
+                <label className="label">Minimum Members per Team *</label>
+                <input
+                  className="input"
+                  type="number"
+                  name="minTeamSize"
+                  value={form.minTeamSize}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="field">
+                <label className="label">Maximum Members per Team *</label>
+                <input
+                  className="input"
+                  type="number"
+                  name="maxTeamSize"
+                  value={form.maxTeamSize}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="field">
+                <label className="label">Team Members Must Be From *</label>
+                <div className="select is-fullwidth">
+                  <select
+                    name="teamCondition"
+                    value={form.teamCondition}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">-- Please Choose --</option>
+                    <option value="sameAssociation">Same Association</option>
+                    <option value="sameRegion">Same Region</option>
+                    <option value="sameCountry">Same Country</option>
+                    <option value="any">Any</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="buttons mt-4">
+                <button className="button" onClick={goToStep5}>Back</button>
+                <button className="button is-primary" onClick={() => {
+                  const errors = validateStep(6);
+                    if (errors.length) return alert(errors.join("\n"));
+                    setStep(7);
+                  }}
+                >
+                Next</button>
+              </div>
+            </div>
+          )}
+
+          {step === 6 && form.organizedInsidePlatform === 'outside' && (
+            <div className="box">
+              <h2 className="title is-3 has-text-centered">External Contest Info</h2>
+
+              <div className="field">
+                <label className="label">External Contest Link (optional)</label>
+                <input
+                  className="input"
+                  type="url"
+                  name="externalLink"
+                  placeholder="https://example.com"
+                  value={form.externalLink}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="field">
+                <label className="label">Message (Markdown, optional)</label>
+                <textarea
+                  className="textarea"
+                  name="externalMessage"
+                  placeholder="Enter instructions or details in markdown..."
+                  value={form.externalMessage}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="buttons mt-4">
+                <button className="button" onClick={goToStep5}>Back</button>
+                <button className="button is-primary" onClick={() => {
+                    const errors = validateStep(8);
+                    if (errors.length) return alert(errors.join("\n"));
+                    handleFinalSubmit();
+                  }}>
+                  Create Contest
+                </button>
+              </div>
+            </div>
+          )}
+
+          {step === 7 && form.organizedInsidePlatform === 'inside'  && (
+            <div className="box">
+              <h2 className="title is-3 has-text-centered">Standing & Rate Mechanism</h2>
+
+              <div className="field">
+                <label className="label">Enable Penalty? *</label>
+                <div className="select is-fullwidth">
+                  <select
+                      name="hasPenalty"
+                      value={String(form.hasPenalty)}
+                      onChange={(e) =>
+                        setForm(prev => ({ ...prev, hasPenalty: e.target.value === 'true' }))
+                      }
+                      required
+                  >
+                    <option value="">-- Please Choose --</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="field">
+                <label className="label">Contest Rate Method *</label>
+                <div className="select is-fullwidth">
+                  <select name="rateMethod" value={form.rateMethod} onChange={handleChange} required>
+                    <option value="">-- Please Choose --</option>
+                    <option value="timestamp">Timestamp</option>
+                    <option value="correctSubmissions">Correct Submissions</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="field">
+                <label className="label">Result Visibility *</label>
+                <div className="select is-fullwidth">
+                  <select name="resultVisibility" value={form.resultVisibility} onChange={handleChange} required>
+                    <option value="">-- Please Choose --</option>
+                    <option value="realTime">Updated in Real-Time</option>
+                    <option value="endOfContest">At End of Contest</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="field">
+                <label className="label">Final Results Publishing *</label>
+                <div className="select is-fullwidth">
+                  <select name="resultPublishing" value={form.resultPublishing} onChange={handleChange} required>
+                    <option value="">-- Please Choose --</option>
+                    <option value="automatic">Automatic</option>
+                    <option value="manual">Manual</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="field">
+                <label className="label">Standing Status System *</label>
+                <div className="control">
+                  <label className="radio">
+                    <input
+                      type="radio"
+                      name="standingStyle"
+                      value="text"
+                      checked={form.standingStyle === 'text'}
+                      onChange={handleChange}
+                    />
+                    {' '}Accepted, Pending, Review, Wrong Answer
+                  </label>
+                  <br />
+                  <label className="radio">
+                    <input
+                      type="radio"
+                      name="standingStyle"
+                      value="numbers"
+                      checked={form.standingStyle === 'numbers'}
+                      onChange={handleChange}
+                    />
+                    {' '}1, 0, -1
+                  </label>
+                  <br />
+                  <label className="radio">
+                    <input
+                      type="radio"
+                      name="standingStyle"
+                      value="colorsFull"
+                      checked={form.standingStyle === 'colorsFull'}
+                      onChange={handleChange}
+                    />
+                    {' '}Green, Red, White, Purple
+                  </label>
+                  <br />
+                  <label className="radio">
+                    <input
+                      type="radio"
+                      name="standingStyle"
+                      value="colorsSimple"
+                      checked={form.standingStyle === 'colorsSimple'}
+                      onChange={handleChange}
+                    />
+                    {' '}Green, Red, White
+                  </label>
+                </div>
+              </div>
+
+              <div className="buttons mt-4">
+                <button className="button" onClick={goToStep6}>Back</button>
+                <button className="button is-primary" onClick={() => {
+                    const errors = validateStep(7);
+                    if (errors.length) return alert(errors.join("\n"));
+                    setStep(8);
+                  }}
+                >
+                Next</button>
+              </div>
+            </div>
+          )}
+
+          {step === 8 && form.organizedInsidePlatform === 'inside' && (
+            <div className="box">
+              <h2 className="title is-3 has-text-centered">Question Type</h2>
+
+              <div className="field">
+                <label className="label">Select Question Type *</label>
+                <div className="select is-fullwidth">
+                  <select
+                    name="questionType"
+                    value={form.questionType}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">-- Please Choose --</option>
+                    <option value="form">Form</option>
+                    <option value="file">File Upload</option>
+                    <option value="mcq">Multiple Choice Questions</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="buttons mt-4">
+                <button className="button" onClick={goToStep7}>Back</button>
+                <button className="button is-primary" onClick={() => {
+                    const errors = validateStep(8);
+                    if (errors.length) return alert(errors.join("\n"));
+                    handleFinalSubmit();
+                  }}>
+                  Submit Contest
+                </button>
+              </div>
+            </div>
+          )}
         </div>
     )
 }
