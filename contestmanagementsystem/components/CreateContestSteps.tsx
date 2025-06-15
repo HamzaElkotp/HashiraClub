@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { handleChange, validateContestStep, handleContestCreationSubmit} from '@/lib/contestCreationUtils';
+import ReactMarkdown from 'react-markdown';
 
 function ContestInfo({ form, setForm, setStep }: any) {
   return (
@@ -15,7 +16,14 @@ function ContestInfo({ form, setForm, setStep }: any) {
 
       <div className="field">
           <label className="label">Description (Markdown) *</label>
-          <textarea className="textarea" name="description" value={form.description} onChange={handleChange(setForm)} required />
+            <textarea
+            rows={5}
+            className="textarea" name="description" value={form.description} onChange={handleChange(setForm)} required
+            />
+            <p className="help mt-2"><strong>Preview:</strong></p>
+            <div className="content box" style={{ minHeight: '100px' }}>
+            <ReactMarkdown>{form.description}</ReactMarkdown>
+            </div>
       </div>
 
       <div className="field">

@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import McqEditor from './mcq/mcqEditor';
 
 export default function ManageProblemsPage() {
   const { id } = useParams(); // ✅ must be inside the component
@@ -31,13 +32,18 @@ export default function ManageProblemsPage() {
 
       {/* <ProblemList contestId={id} /> */}
 
-      {showModal && (
-        // <AddQuestionModal
-        //   contestId={id}
-        //   questionType={contest?.questionType}
-        //   onClose={() => setShowModal(false)}
-        // />
+      {/* {showModal && (
+        <AddQuestionModal
+          contestId={id}
+          questionType={contest?.questionType}
+          onClose={() => setShowModal(false)}
+        />
         ''
+      )} */}
+
+      
+      {showModal && contest?.questionType === 'mcq' && (
+        <McqEditor onClose={() => setShowModal(false)} />
       )}
     </div>
   );

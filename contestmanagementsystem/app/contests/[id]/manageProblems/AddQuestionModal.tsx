@@ -8,9 +8,9 @@ export default function AddQuestionModal({ questionType, onClose, contestId }) {
           <button className="delete" onClick={onClose}></button>
         </header>
         <section className="modal-card-body">
-          {/* {questionType === 'form' && <FormEditor contestId={contestId} />}
+          {questionType === 'form' && <FormEditor contestId={contestId} />}
           {questionType === 'mcq' && <QAEditor contestId={contestId} />}
-          {questionType === 'file' && <FileConfigEditor contestId={contestId} />} */}
+          {questionType === 'file' && <FileConfigEditor contestId={contestId} />}
         </section>
       </div>
     </div>
