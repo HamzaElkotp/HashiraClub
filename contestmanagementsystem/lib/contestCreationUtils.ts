@@ -64,10 +64,10 @@ function validateContestStep(step: number, form: any): string[] {
     }
 
     if (step === 5) {
-        if (!form.organizedInsidePlatform) errors.push("You must choose if contest is internal or external.");
+        if (!form.organizingPlace) errors.push("You must choose if contest is internal or external.");
     }
 
-    if (step === 6 && form.organizedInsidePlatform === "inside") {
+    if (step === 6 && form.organizingPlace === "inside") {
       if (form.minTeamSize == null || form.minTeamSize < 1)
         errors.push("Minimum team size must be 1 or more.");
 
@@ -78,7 +78,7 @@ function validateContestStep(step: number, form: any): string[] {
         errors.push("Team condition is required.");
     }
 
-    if (step === 7 && form.organizedInsidePlatform === "inside") {
+    if (step === 7 && form.organizingPlace === "inside") {
         if (!form.hasPenalty) errors.push("Penalty option is required.");
         if (!form.rateMethod) errors.push("Rate method is required.");
         if (!form.resultVisibility) errors.push("Result visibility option is required.");
@@ -86,7 +86,7 @@ function validateContestStep(step: number, form: any): string[] {
         if (!form.standingStyle) errors.push("Standing style option is required.");
     }
 
-    if (step === 8 && form.organizedInsidePlatform === "inside") {
+    if (step === 8 && form.organizingPlace === "inside") {
         if (!form.questionType) errors.push("You must select a question type.");
     }
 

@@ -16,7 +16,7 @@ const ContestSchema = new Schema({
   isOnline: { type: Boolean, required: true },
   regions: [{ type: String }],
   category: { type: String, required: true },
-  organizedInsidePlatform: { type: String, enum: ['inside', 'outside'], required: true },
+  organizingPlace: { type: String, enum: ['inside', 'outside'], required: true },
   externalLink: String,
   externalMessage: String,
   minTeamSize: Number,

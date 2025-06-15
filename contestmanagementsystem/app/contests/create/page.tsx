@@ -155,7 +155,7 @@ export default function CreateContestPage() {
 
 
   // Association Info
-  const [Associations, setAssociations] = useState([]);
+  const [associations, setAssociations] = useState([]);
   const [selectedAssociations, setSelectedAssociations] = useState<string[]>([]);
   // const [showAddAssociation, setShowAddAssociation] = useState(false);
   // const [newAssociation, setNewAssociation] = useState({
@@ -288,7 +288,7 @@ export default function CreateContestPage() {
             </div>
           )} */}
 
-          {step === 4 && <ContestCompetingAssociations form={form} setForm={setForm} setStep={setStep} Associations={Associations} selectedAssociations={selectedAssociations} toggleAssociation={toggleAssociation} />}
+          {step === 4 && <ContestCompetingAssociations form={form} setForm={setForm} setStep={setStep} Associations={associations} selectedAssociations={selectedAssociations} toggleAssociation={toggleAssociation} />}
 
           {/* {showAddAssociation && (
             <div className="modal is-active">
@@ -343,13 +343,13 @@ export default function CreateContestPage() {
 
           {step === 5 && <ContestOrganizingMode form={form} setForm={setForm} setStep={setStep} />}
 
-          {step === 6 && form.organizedInsidePlatform === 'inside' && <ContestTeamSetUp form={form} setForm={setForm} setStep={setStep} />}
+          {step === 6 && form.organizingPlace === 'inside' && <ContestTeamSetUp form={form} setForm={setForm} setStep={setStep} />}
 
-          {step === 6 && form.organizedInsidePlatform === 'outside' && <ExternalContestInfo form={form} setForm={setForm} setStep={setStep} />}
+          {step === 6 && form.organizingPlace === 'outside' && <ExternalContestInfo form={form} setForm={setForm} setStep={setStep} />}
 
-          {step === 7 && form.organizedInsidePlatform === 'inside'  && <ContestStandingRateMechanism form={form} setForm={setForm} setStep={setStep} />}
+          {step === 7 && form.organizingPlace === 'inside'  && <ContestStandingRateMechanism form={form} setForm={setForm} setStep={setStep} />}
 
-          {step === 8 && form.organizedInsidePlatform === 'inside' && <ContestQAType form={form} setForm={setForm} setStep={setStep} />}
+          {step === 8 && form.organizingPlace === 'inside' && <ContestQAType form={form} setForm={setForm} setStep={setStep} />}
         </div>
     )
 }

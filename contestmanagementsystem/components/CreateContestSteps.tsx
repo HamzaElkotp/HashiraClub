@@ -118,13 +118,13 @@ function ContestDates({ form, setForm, setStep, handleStartDateChange, increase,
         <h2 className="title is-3 has-text-centered">Contest Dates</h2>
         <div className="field">
             <label className="label">Publish Date *</label>
-            <input className="input" type="date" name="publishDate" value={form.publishDate} onChange={handleChange(setForm)} required/>
+            <input className="input" type="date" name="publishDate" value={form.publishDate ? form.publishDate.slice(0, 10) : ''} onChange={handleChange(setForm)} required/>
             <p className="help">{daysLeft}</p>
         </div>
 
         <div className="field">
             <label className="label">Registration End Date *</label>
-            <input className="input" type="date" name="registrationEndDate" value={form.registrationEndDate} onChange={handleChange(setForm)} required/>
+            <input className="input" type="date" name="registrationEndDate" value={form.registrationEndDate ? form.registrationEndDate.slice(0, 10) : ''} onChange={handleChange(setForm)} required/>
             <p className="help">{registrationPeriod}</p>
         </div>
 
@@ -135,7 +135,7 @@ function ContestDates({ form, setForm, setStep, handleStartDateChange, increase,
                 className="input"
                 type="datetime-local"
                 name="startDateTime"
-                value={form.startDateTime}
+                value={form.startDateTime ? form.startDateTime.slice(0, 16) : ''}
                 onChange={handleStartDateChange}
                 required/>
             </div>
@@ -268,7 +268,7 @@ function ContestOrganizingMode({ form, setForm, setStep }: any) {
             <label className="label">The contest will take place in</label>
             <div className="control">
                 <div className="select is-fullwidth">
-                <select name="organizedInsidePlatform" value={form.organizedInsidePlatform} onChange={handleChange(setForm)} required>
+                <select name="organizingPlace" value={form.organizingPlace} onChange={handleChange(setForm)} required>
                     <option value="">-- Please choose --</option>
                     <option value="inside">Organized Inside the platform</option>
                     <option value="outside">Organized externally</option>
