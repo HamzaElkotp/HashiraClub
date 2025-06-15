@@ -105,9 +105,11 @@ export default function ContestDashboard() {
                 </Link>
               </div>
               <div className="buttons grid">
-                <Link href={`/contests/${contest._id}/add-questions`}>
-                  <button className="button is-primary is-meduim is-fullwidth">Add Questions</button>
-                </Link>
+                { (contest.organizingPlace === 'inside') ? (
+                    <Link href={`/contests/${contest._id}/manageProblems`}>
+                      <button className="button is-primary is-meduim is-fullwidth">Add Questions</button>
+                    </Link>
+                ):('')}
                 <Link href={`/contests/${contest._id}/control`}>
                     <button className="button is-success is-meduim is-fullwidth">Contest Control</button>
                 </Link>
