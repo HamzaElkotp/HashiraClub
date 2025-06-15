@@ -2,6 +2,55 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
+const formatDiff = (date: Date) => {
+    const now = new Date();
+    const ms = date.getTime() - now.getTime();
+    const hours = Math.max(0, Math.floor(ms / (1000 * 60 * 60)));
+    const days = Math.floor(hours / 24);
+    return `${days} days and ${hours % 24} hours`;
+};
+
+function returnContestStatus(form:any){
+  const {
+    end,
+    publishDate,
+    registrationEnd,
+    start
+  } = getContestStatus(form);
+  const now = new Date();
+  if (now < publishDate) {
+    return `Contest will be published at ${publishDate.toLocaleString()} after ${formatDiff(publishDate)}`;
+  } else if (now < registrationEnd) {
+    return `Contest Registration is Open, Will close at ${registrationEnd.toLocaleString()} after ${formatDiff(registrationEnd)}`;
+  } else if (now < start) {
+    return `Contest Registration is Closed, Contest will start at ${start.toLocaleString()} after ${formatDiff(start)}`;
+  } else if (now < end) {
+    return `Contest is running, will finish at ${end.toLocaleString()} after ${formatDiff(end)}`;
+  } else {
+    return `Contest ended at ${end.toLocaleString()}`;
+  }
+}
+
+function getContestStatus(form: any) {
+  const publishDate = new Date(form.publishDate);
+  const registrationEnd = new Date(form.registrationEndDate);
+  const start = new Date(form.startDateTime);
+
+  const durationHours = 
+    form.period.unit === 'halfHours' ? form.period.value * 0.5 :
+    form.period.unit === 'days' ? form.period.value * 24 :
+    form.period.unit === 'weeks' ? form.period.value * 168 : 0;
+
+  const end = new Date(start.getTime() + durationHours * 60 * 60 * 1000);
+  return {
+    end,
+    publishDate,
+    registrationEnd,
+    start
+  };
+}
+
+
 export default function ContestDashboard() {
   const [contests, setContests] = useState([]);
 
@@ -43,14 +92,24 @@ export default function ContestDashboard() {
             <div className="box has-text-centered">
               <img src={contest.banner} alt="Banner" style={{ width: '100%', height: '180px', objectFit: 'cover' }} />
               <h2 className="title is-5 mt-3">{contest.name}</h2>
-              <div className="buttons is-centered mt-4">
-                <button className="button is-danger is-small" onClick={() => handleDelete(contest._id)}>Delete</button>
-                <Link href={`/contests/${contest._id}/edit`}>
-                  <button className="button is-warning is-small">Edit</button>
+              <p className="has-text-centered has-text-grey is-size-6 mb-5">{returnContestStatus(contest)}</p>
+              <div className="mt-4 mb-2 columns is-2 is-multiline">
+                <div className='column is-one-third'>
+                  <button className="button is-danger is-meduim is-fullwidth" onClick={() => handleDelete(contest._id)}>Delete</button>
+                </div>
+                <Link href={`/contests/${contest._id}/edit`} className='column is-one-third'>
+                  <button className="button is-warning is-meduim is-fullwidth">Edit</button>
                 </Link>
-                <button className="button is-info is-small" disabled>View</button>
+                <Link href={``} className='column is-one-third'>
+                    <button className="button is-info is-meduim is-fullwidth" disabled>View</button>
+                </Link>
+              </div>
+              <div className="buttons grid">
                 <Link href={`/contests/${contest._id}/add-questions`}>
-                  <button className="button is-primary is-small">Add Questions</button>
+                  <button className="button is-primary is-meduim is-fullwidth">Add Questions</button>
+                </Link>
+                <Link href={`/contests/${contest._id}/control`}>
+                    <button className="button is-success is-meduim is-fullwidth">Contest Control</button>
                 </Link>
               </div>
             </div>
