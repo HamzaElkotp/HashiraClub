@@ -14,3 +14,17 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
   }
 }
+
+export async function GET() {
+  await connectToDatabase();
+  const contests = await Contest.find().sort({ createdAt: -1 });
+  return new Response(JSON.stringify(contests), { status: 200 });
+}
+
+export async function DELETE(req: NextRequest) {
+  await connectToDatabase();
+  const { id } = await req.json();
+
+  await Contest.findByIdAndDelete(id);
+  return new Response(JSON.stringify({ success: true }));
+}

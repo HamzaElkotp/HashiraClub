@@ -10,8 +10,8 @@ export default function Dashboard() {
       <div className="box">
         <p>Welcome to the dashboard. Choose an option below:</p>
         <div className="buttons mt-4">
-          <Link href="/contests/create" className="button is-primary">
-            Create a Contest
+          <Link href="/contests" className="button is-primary">
+            Go to contest System
           </Link>
         </div>
       </div>
