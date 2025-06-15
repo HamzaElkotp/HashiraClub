@@ -2,9 +2,8 @@ import { connectToDatabase } from '@/lib/mongoose';
 import { Sponsor } from '@/models/Sponsor';
 
 export async function GET() {
-//   await connectToDatabase();
-//   const sponsors = await Sponsor.find().sort({ createdAt: -1 });
-  const sponsors = [{}];
+  await connectToDatabase();
+  const sponsors = await Sponsor.find().sort({ createdAt: -1 });
   return Response.json(sponsors);
 }
 
