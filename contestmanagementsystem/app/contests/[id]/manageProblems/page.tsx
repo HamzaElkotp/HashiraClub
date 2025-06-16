@@ -39,7 +39,9 @@ export default function ManageProblemsPage() {
       </div>
       
 
-      <ProblemList contestId={id} type={contest?.questionType} />
+      { contest && (
+        <ProblemList contestId={id} questionType={contest.questionType} />
+      )}
 
       {showModal && (
         <AddQuestionModal
