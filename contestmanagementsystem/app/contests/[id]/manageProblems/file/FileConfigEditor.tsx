@@ -3,8 +3,8 @@ import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 export default function FileConfigEditor({ contestId, initialData, onClose }: { contestId: string, initialData?: any, onClose: () => void }) {
-  const [title, setTitle] = useState('');
-  const [details, setDetails] = useState('');
+  const [title, setTitle] = useState(initialData?.title || '');
+  const [details, setDetails] = useState(initialData?.details || '');
 
   const validateAndSubmit = async () => {
     const errs = [];
@@ -23,8 +23,8 @@ export default function FileConfigEditor({ contestId, initialData, onClose }: { 
       details
     };
 
-    const res = await fetch('/api/file', {
-      method: 'POST',
+    const res = await fetch(initialData?._id ? `/api/file/${initialData._id}` : '/api/file', {
+      method: initialData?._id ? 'PUT' : 'POST',
       body: JSON.stringify(payload),
       headers: { 'Content-Type': 'application/json' },
     });

@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import McqEditor from './mcq/McqEditor';
+import FileConfigEditor from './file/FileConfigEditor';
 
 export default function ProblemList({ contestId, questionType }: { contestId: string, questionType:string }) {
   const [questions, setQuestions] = useState<any[]>([]);
@@ -60,13 +61,23 @@ export default function ProblemList({ contestId, questionType }: { contestId: st
         </div>
       )}
 
-      {editingQuestion && (
+      {editingQuestion && questionType=='mcq' && (
         <McqEditor
           contestId={contestId}
           initialData={editingQuestion}
           onClose={() => {
             setEditingQuestion(null);
             fetchQuestions(); // refresh after edit
+          }}
+        />
+      )}
+      {editingQuestion && questionType=='file' && (
+        <FileConfigEditor
+          contestId={contestId}
+          initialData={editingQuestion}
+          onClose={() => {
+            setEditingQuestion(null);
+            fetchQuestions();
           }}
         />
       )}
