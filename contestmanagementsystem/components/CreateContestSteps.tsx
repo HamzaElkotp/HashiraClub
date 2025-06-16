@@ -528,7 +528,7 @@ function ContestQAType({ form, setForm, setStep }: any) {
             <div className="select is-fullwidth">
                 <select name="questionType" value={form.questionType} onChange={handleChange(setForm)} required>
                 <option value="">-- Please Choose --</option>
-                <option value="form">Form</option>
+                {/* <option value="form">Form</option> */}
                 <option value="file">File Upload</option>
                 <option value="mcq">Multiple Choice Questions</option>
                 </select>
