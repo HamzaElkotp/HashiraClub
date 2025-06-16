@@ -28,15 +28,15 @@ export default function McqEditor({ onClose }: { onClose: () => void }) {
   };
 
   const validateAndSubmit = () => {
-    const newErrors = [];
+    const errs = [];
 
-    if (!title.trim()) newErrors.push('Title is required.');
-    if (!details.trim()) newErrors.push('Details are required.');
-    if (options.some((opt) => !opt.trim())) newErrors.push('All options must be filled.');
-    if (correctAnswerIndex === null) newErrors.push('You must select the correct answer.');
+    if (!title.trim()) errs.push('Title is required.');
+    if (!details.trim()) errs.push('Details are required.');
+    if (options.some((opt) => !opt.trim())) errs.push('All options must be filled.');
+    if (correctAnswerIndex === null) errs.push('You must select the correct answer.');
 
-    if (newErrors.length > 0) {
-      alert(newErrors.join('\n'))
+    if (errs.length > 0) {
+      alert(errs.join('\n'))
       return;
     }
 
@@ -48,7 +48,6 @@ export default function McqEditor({ onClose }: { onClose: () => void }) {
       correctAnswerIndex,
     };
 
-    console.log('[New MCQ Question]', question);
     alert('Question created successfuly');
     onClose();
   };
