@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import McqEditor from './mcq/mcqEditor';
 import FileConfigEditor from './file/FileConfigEditor';
+import FormBuilder from './form/FormBuilder';
 
 export default function ManageProblemsPage() {
   const { id } = useParams(); // ✅ must be inside the component
@@ -43,12 +44,16 @@ export default function ManageProblemsPage() {
       )} */}
 
       
+      
       {showModal && contest?.questionType === 'mcq' && (
         <McqEditor onClose={() => setShowModal(false)} />
       )}
       {showModal && contest?.questionType === 'file' && (
         <FileConfigEditor onClose={() => setShowModal(false)} />
       )}
+      {/* {showModal && contest?.questionType === 'form' && (
+        <FormBuilder onClose={() => setShowModal(false)} />
+      )} */}
     </div>
   );
 }
