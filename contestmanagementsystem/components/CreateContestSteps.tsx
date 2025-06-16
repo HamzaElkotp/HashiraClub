@@ -22,7 +22,7 @@ function ContestInfo({ form, setForm, setStep }: any) {
             />
             <p className="help mt-2"><strong>Preview:</strong></p>
             <div className="content box" style={{ minHeight: '100px' }}>
-            <ReactMarkdown>{form.description}</ReactMarkdown>
+                <ReactMarkdown>{form.description}</ReactMarkdown>
             </div>
       </div>
 
@@ -384,6 +384,10 @@ function ExternalContestInfo({ form, setForm, setStep }: any) {
                 value={form.externalMessage}
                 onChange={handleChange(setForm)}
             />
+            <p className="help mt-2"><strong>Preview:</strong></p>
+            <div className="content box" style={{ minHeight: '100px' }}>
+                <ReactMarkdown>{form.externalMessage}</ReactMarkdown>
+            </div>
         </div>
 
         <div className="buttons mt-4">
