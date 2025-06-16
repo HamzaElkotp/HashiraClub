@@ -1,18 +1,27 @@
-export default function AddQuestionModal({ questionType, onClose, contestId }) {
-  return (
-    <div className="modal is-active">
-      <div className="modal-background" onClick={onClose}></div>
-      <div className="modal-card">
-        <header className="modal-card-head">
-          <p className="modal-card-title">Add New Question</p>
-          <button className="delete" onClick={onClose}></button>
-        </header>
-        <section className="modal-card-body">
-          {questionType === 'form' && <FormEditor contestId={contestId} />}
-          {questionType === 'mcq' && <QAEditor contestId={contestId} />}
-          {questionType === 'file' && <FileConfigEditor contestId={contestId} />}
-        </section>
-      </div>
-    </div>
-  );
+import FileConfigEditor from "./file/FileConfigEditor";
+import FormBuilder from "./form/FormBuilder";
+import McqEditor from "./mcq/mcqEditor";
+
+export default function AddQuestionModal({
+  contestId,
+  questionType,
+  onClose,
+}: {
+  contestId: string;
+  questionType: 'mcq' | 'file' | 'form';
+  onClose: () => void;
+}) {
+  if (questionType === 'mcq') {
+    return <McqEditor contestId={contestId} onClose={onClose} />;
+  }
+
+  // if (questionType === 'file') {
+  //   return <FileConfigEditor contestId={contestId} onClose={onClose} />;
+  // }
+
+  // if (questionType === 'form') {
+  //   return <FormBuilder contestId={contestId} onClose={onClose} />;
+  // }
+
+  return null;
 }

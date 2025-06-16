@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
-export default function McqEditor({ onClose }: { onClose: () => void }) {
+export default function McqEditor({ contestId, onClose }: { contestId: string, onClose: () => void }) {
   const [title, setTitle] = useState('');
   const [details, setDetails] = useState('');
   const [hint, setHint] = useState('');
@@ -19,15 +19,7 @@ export default function McqEditor({ onClose }: { onClose: () => void }) {
     setOptions([...options, '']);
   };
 
-  const handleRemoveOption = (index: number) => {
-    const updated = options.filter((_, i) => i !== index);
-    setOptions(updated);
-    if (correctAnswerIndex === index) setCorrectAnswerIndex(null);
-    else if (correctAnswerIndex !== null && correctAnswerIndex > index)
-      setCorrectAnswerIndex(correctAnswerIndex - 1);
-  };
-
-  const validateAndSubmit = () => {
+  const validateAndSubmit = async () => {
     const errs = [];
 
     if (!title.trim()) errs.push('Title is required.');
@@ -36,21 +28,33 @@ export default function McqEditor({ onClose }: { onClose: () => void }) {
     if (correctAnswerIndex === null) errs.push('You must select the correct answer.');
 
     if (errs.length > 0) {
-      alert(errs.join('\n'))
+      alert(errs.join('\n'));
       return;
     }
 
-    const question = {
+    const payload = {
+      contestId: contestId, // <-- you can pass this via props from ManageProblemsPage
       title,
       details,
       hint,
-      options,
+      options: options.map((o) => ({ label: o })),
       correctAnswerIndex,
     };
 
-    alert('Question created successfuly');
-    onClose();
+    const res = await fetch('/api/mcq', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (res.ok) {
+      alert('MCQ question saved to DB!');
+      onClose();
+    } else {
+      alert('Failed to save question');
+    }
   };
+
 
   return (
     <div className="modal is-active">

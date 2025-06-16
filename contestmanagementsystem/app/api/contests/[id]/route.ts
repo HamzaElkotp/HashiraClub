@@ -8,6 +8,7 @@ export async function GET(_: any, { params }: any) {
   return new Response(JSON.stringify(contest), { status: 200 });
 }
 
+
 export async function PUT(req: NextRequest, { params }: any) {
   await connectToDatabase();
   const data = await req.json();
