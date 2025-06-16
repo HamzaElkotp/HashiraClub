@@ -15,9 +15,9 @@ export default function AddQuestionModal({
     return <McqEditor contestId={contestId} onClose={onClose} />;
   }
 
-  // if (questionType === 'file') {
-  //   return <FileConfigEditor contestId={contestId} onClose={onClose} />;
-  // }
+  if (questionType === 'file') {
+    return <FileConfigEditor contestId={contestId} onClose={onClose} />;
+  }
 
   // if (questionType === 'form') {
   //   return <FormBuilder contestId={contestId} onClose={onClose} />;

@@ -39,7 +39,7 @@ export default function ManageProblemsPage() {
       </div>
       
 
-      <ProblemList contestId={id} />
+      <ProblemList contestId={id} type={contest?.questionType} />
 
       {showModal && (
         <AddQuestionModal
@@ -53,7 +53,7 @@ export default function ManageProblemsPage() {
         <McqEditor onClose={() => setShowModal(false)} contestId={id} />
       )}
       {showModal && contest?.questionType === 'file' && (
-        <FileConfigEditor onClose={() => setShowModal(false)} />
+        <FileConfigEditor onClose={() => setShowModal(false)} contestId={id} />
       )}
       {/* {showModal && contest?.questionType === 'form' && (
         <FormBuilder onClose={() => setShowModal(false)} />

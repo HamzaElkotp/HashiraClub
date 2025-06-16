@@ -2,11 +2,11 @@
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
-export default function FileConfigEditor({ onClose }: { onClose: () => void }) {
+export default function FileConfigEditor({ contestId, initialData, onClose }: { contestId: string, initialData?: any, onClose: () => void }) {
   const [title, setTitle] = useState('');
   const [details, setDetails] = useState('');
 
-  const validateAndSubmit = () => {
+  const validateAndSubmit = async () => {
     const errs = [];
 
     if (!title.trim()) errs.push('Title is required.');
@@ -17,10 +17,26 @@ export default function FileConfigEditor({ onClose }: { onClose: () => void }) {
       return;
     }
 
-    const question = { title, details };
-    alert('File question created!');
-    onClose();
+    const payload = {
+      contestId,
+      title,
+      details
+    };
+
+    const res = await fetch('/api/file', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (res.ok) {
+      alert('File question saved successfully!');
+      onClose();
+    } else {
+      alert('Failed to create file question.');
+    }
   };
+
 
   return (
     <div className="modal is-active">
