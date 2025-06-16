@@ -2,12 +2,14 @@
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
-export default function McqEditor({ contestId, onClose }: { contestId: string, onClose: () => void }) {
-  const [title, setTitle] = useState('');
-  const [details, setDetails] = useState('');
-  const [hint, setHint] = useState('');
-  const [options, setOptions] = useState(['', '']);
-  const [correctAnswerIndex, setCorrectAnswerIndex] = useState<number | null>(null);
+export default function McqEditor({ contestId, initialData, onClose }: { contestId: string, initialData?: any, onClose: () => void }) {
+  const [title, setTitle] = useState(initialData?.title || '');
+  const [details, setDetails] = useState(initialData?.details || '');
+  const [hint, setHint] = useState(initialData?.hint || '');
+  const [options, setOptions] = useState(initialData?.options?.map((o: any) => o.label) || ['', '']);
+  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(
+    typeof initialData?.correctAnswerIndex === 'number' ? initialData.correctAnswerIndex : null
+  );
 
   const handleOptionChange = (index: number, value: string) => {
     const updated = [...options];
@@ -17,6 +19,14 @@ export default function McqEditor({ contestId, onClose }: { contestId: string, o
 
   const handleAddOption = () => {
     setOptions([...options, '']);
+  };
+
+  const handleRemoveOption = (index: number) => {
+    const updated = options.filter((_, i) => i !== index);
+    setOptions(updated);
+    if (correctAnswerIndex === index) setCorrectAnswerIndex(null);
+    else if (correctAnswerIndex !== null && correctAnswerIndex > index)
+      setCorrectAnswerIndex(correctAnswerIndex - 1);
   };
 
   const validateAndSubmit = async () => {
@@ -41,8 +51,9 @@ export default function McqEditor({ contestId, onClose }: { contestId: string, o
       correctAnswerIndex,
     };
 
-    const res = await fetch('/api/mcq', {
-      method: 'POST',
+    const res = await fetch(
+      initialData?._id ? `/api/mcq/${initialData._id}` : '/api/mcq', {
+      method: initialData?._id ? 'PUT' : 'POST',
       body: JSON.stringify(payload),
       headers: { 'Content-Type': 'application/json' },
     });
