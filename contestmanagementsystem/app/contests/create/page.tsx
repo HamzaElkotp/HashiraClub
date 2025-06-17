@@ -376,11 +376,10 @@ export default function CreateContestPage() {
           {((step === 9 && form.organizingPlace === 'inside') || (step === 7 && form.organizingPlace === 'outside')) &&
             <div className="has-text-centered mt-5">
               <button className="button is-primary" onClick={() => {
-                  const errors = validateContestStep(step, form);
-                  if (errors.length) return alert(errors.join("\n"));
+                  // const errors = validateContestStep(step, form);
+                  // if (errors.length) return alert(errors.join("\n"));
                   handleContestCreationSubmit(form);
-                  }}>Submit Contest
-              </button>
+              }}>Submit Contest</button>
             </div>
           }
         </div>

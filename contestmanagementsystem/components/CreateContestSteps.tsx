@@ -53,7 +53,7 @@ function ContestInfo({ form, setForm, setStep, currentStep }: any) {
       </div>
 
       <button className="button is-primary mt-4" onClick={() => {
-          const errors = validateContestStep(currentStep, form);
+          const errors = validateContestStep("validateInfo", form);
           if (errors.length) return alert(errors.join("\n"));
           setStep(currentStep+1);
       }}>
@@ -114,7 +114,7 @@ function ContestTakePlace({ form, setForm, setStep, currentStep, handleMultiSele
             <div className="buttons mt-4">
             <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
             <button className="button is-primary" onClick={() => {
-                const errors = validateContestStep(currentStep, form);
+                const errors = validateContestStep("validateTakePlace", form);
                 if (errors.length) return alert(errors.join("\n"));
                 setStep(currentStep+1);
                 }}
@@ -177,7 +177,7 @@ function ContestDates({ form, setForm, setStep, currentStep, handleStartDateChan
         <div className="buttons mt-4">
             <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
             <button className="button is-primary" onClick={() => {
-                const errors = validateContestStep(currentStep, form);
+                const errors = validateContestStep("validateDates", form);
                 if (errors.length) return alert(errors.join("\n"));
                 setStep(currentStep+1);
                 }}
@@ -219,8 +219,8 @@ function ContestSponsors({ form, setForm, setStep, currentStep, toggleSponsor, s
         <div className="buttons mt-4">
             <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
             <button className="button is-primary" onClick={() => {
-                const errors = validateContestStep(currentStep, form);
-                if (errors.length) return alert(errors.join("\n"));
+                // const errors = validateContestStep(currentStep, form);
+                // if (errors.length) return alert(errors.join("\n"));
                 setStep(currentStep+1);
             }}>Next</button>
         </div>
@@ -259,12 +259,10 @@ function ContestCompetingAssociations({ form, setForm, setStep, currentStep, Ass
         <div className="buttons mt-4">
             <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
             <button className="button is-primary" onClick={() => {
-                const errors = validateContestStep(currentStep, form);
-                if (errors.length) return alert(errors.join("\n"));
+                // const errors = validateContestStep(currentStep, form);
+                // if (errors.length) return alert(errors.join("\n"));
                 setStep(currentStep+1);
-                }}
-            >
-            Next</button>
+            }}>Next</button>
         </div>
     </div>
   );
@@ -293,7 +291,7 @@ function ContestOrganizingMode({ form, setForm, setStep, currentStep }: any) {
             <button
                 className="button is-primary"
                 onClick={() => {
-                const errors = validateContestStep(currentStep, form);
+                const errors = validateContestStep("validateOrganizingPlace", form);
                 if (errors.length) return alert(errors.join("\n"));
                 setStep(currentStep+1);
             }}>Next</button>
@@ -348,12 +346,10 @@ function ContestTeamSetUp({ form, setForm, setStep, currentStep }: any) {
             <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
             <button className="button is-primary" onClick={() => {
                 console.log(form)
-                const errors = validateContestStep(currentStep, form);
+                const errors = validateContestStep("validateTeamSetUp", form);
                 if (errors.length) return alert(errors.join("\n"));
                 setStep(currentStep+1);
-                }}
-            >Next
-            </button>
+            }}>Next</button>
         </div>
     </div>
   );
@@ -394,8 +390,8 @@ function ExternalContestInfo({ form, setForm, setStep, currentStep }: any) {
         <div className="buttons mt-4">
             <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
             <button className="button is-primary" onClick={() => {
-                const errors = validateContestStep(currentStep, form);
-                if (errors.length) return alert(errors.join("\n"));
+                // const errors = validateContestStep(currentStep, form);
+                // if (errors.length) return alert(errors.join("\n"));
                 setStep(currentStep+1);
             }}>Next</button>
         </div>
@@ -511,7 +507,7 @@ function ContestStandingRateMechanism({ form, setForm, setStep, currentStep }: a
         <div className="buttons mt-4">
         <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
         <button className="button is-primary" onClick={() => {
-            const errors = validateContestStep(currentStep, form);
+            const errors = validateContestStep("validateRateMechanism", form);
             if (errors.length) return alert(errors.join("\n"));
             setStep(currentStep+1);
         }}>Next</button>
@@ -540,7 +536,7 @@ function ContestQAType({ form, setForm, setStep, currentStep }: any) {
         <div className="buttons mt-4">
             <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
             <button className="button is-primary" onClick={() => {
-                const errors = validateContestStep(currentStep, form);
+                const errors = validateContestStep("validateQAType", form);
                 if (errors.length) return alert(errors.join("\n"));
                 setStep(currentStep+1);
             }}>Next</button>
@@ -562,4 +558,3 @@ export {
     ContestStandingRateMechanism,
     ContestQAType
 }
-
