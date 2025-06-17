@@ -1,13 +1,11 @@
 'use client';
 import React from 'react';
-import { handleChange, validateContestStep, handleContestCreationSubmit} from '@/lib/contestCreationUtils';
+import { handleChange, validateContestStep} from '@/lib/contestCreationUtils';
 import ReactMarkdown from 'react-markdown';
 import { ContestForm } from '@/types/contest';
 
-// const [form, setForm] = useState<ContestForm>(defaultContest);
 
-
-function ContestInfo({ form, setForm, setStep }: any) {
+function ContestInfo({ form, setForm, setStep, currentStep }: any) {
   return (
     <div className="box mx-4">
 
@@ -55,9 +53,9 @@ function ContestInfo({ form, setForm, setStep }: any) {
       </div>
 
       <button className="button is-primary mt-4" onClick={() => {
-          const errors = validateContestStep(0, form);
+          const errors = validateContestStep(currentStep, form);
           if (errors.length) return alert(errors.join("\n"));
-          setStep(1);
+          setStep(currentStep+1);
       }}>
       Next
       </button>
@@ -65,7 +63,7 @@ function ContestInfo({ form, setForm, setStep }: any) {
   );
 }
 
-function ContestTakePlace({ form, setForm, setStep, handleMultiSelect, allRegions, Categories }: any) {
+function ContestTakePlace({ form, setForm, setStep, currentStep, handleMultiSelect, allRegions, Categories }: any) {
   return (
     <div className="box mx-4">
         <h2 className="title is-3 has-text-centered">Contest Take place</h2>
@@ -114,11 +112,11 @@ function ContestTakePlace({ form, setForm, setStep, handleMultiSelect, allRegion
             </div>
 
             <div className="buttons mt-4">
-            <button className="button" onClick={() => setStep(0)}>Back</button>
+            <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
             <button className="button is-primary" onClick={() => {
-                const errors = validateContestStep(1, form);
+                const errors = validateContestStep(currentStep, form);
                 if (errors.length) return alert(errors.join("\n"));
-                setStep(2);
+                setStep(currentStep+1);
                 }}
             >Next
             </button>
@@ -127,7 +125,7 @@ function ContestTakePlace({ form, setForm, setStep, handleMultiSelect, allRegion
   );
 }
 
-function ContestDates({ form, setForm, setStep, handleStartDateChange, increase, decrease, daysLeft, registrationPeriod, durationInfo }: any) {
+function ContestDates({ form, setForm, setStep, currentStep, handleStartDateChange, increase, decrease, daysLeft, registrationPeriod, durationInfo }: any) {
   return (
     <div className="box mx-4">
         <h2 className="title is-3 has-text-centered">Contest Dates</h2>
@@ -177,11 +175,11 @@ function ContestDates({ form, setForm, setStep, handleStartDateChange, increase,
         </div>
 
         <div className="buttons mt-4">
-            <button className="button" onClick={() => setStep(1)}>Back</button>
+            <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
             <button className="button is-primary" onClick={() => {
-                const errors = validateContestStep(2, form);
+                const errors = validateContestStep(currentStep, form);
                 if (errors.length) return alert(errors.join("\n"));
-                setStep(3);
+                setStep(currentStep+1);
                 }}
             >
             Next</button>
@@ -191,7 +189,7 @@ function ContestDates({ form, setForm, setStep, handleStartDateChange, increase,
 }
 
 
-function ContestSponsors({ form, setForm, setStep, toggleSponsor, sponsors, selectedSponsors }: any) {
+function ContestSponsors({ form, setForm, setStep, currentStep, toggleSponsor, sponsors, selectedSponsors }: any) {
   return (
     <div className="box mx-4">
         <h2 className="title is-3 has-text-centered">Contest Sponsors</h2>
@@ -219,20 +217,18 @@ function ContestSponsors({ form, setForm, setStep, toggleSponsor, sponsors, sele
             )}
         </div>
         <div className="buttons mt-4">
-            <button className="button" onClick={() => setStep(2)}>Back</button>
+            <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
             <button className="button is-primary" onClick={() => {
-                const errors = validateContestStep(3, form);
+                const errors = validateContestStep(currentStep, form);
                 if (errors.length) return alert(errors.join("\n"));
-                setStep(4);
-                }}
-            >
-            Next</button>
+                setStep(currentStep+1);
+            }}>Next</button>
         </div>
     </div>
   );
 }
 
-function ContestCompetingAssociations({ form, setForm, setStep, Associations, selectedAssociations, toggleAssociation }: any) {
+function ContestCompetingAssociations({ form, setForm, setStep, currentStep, Associations, selectedAssociations, toggleAssociation }: any) {
   return (
     <div className="box mx-4">
         <h2 className="title is-3 has-text-centered">Competing Associations</h2>
@@ -261,11 +257,11 @@ function ContestCompetingAssociations({ form, setForm, setStep, Associations, se
         </div>
 
         <div className="buttons mt-4">
-            <button className="button" onClick={() => setStep(3)}>Back</button>
+            <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
             <button className="button is-primary" onClick={() => {
-                const errors = validateContestStep(4, form);
+                const errors = validateContestStep(currentStep, form);
                 if (errors.length) return alert(errors.join("\n"));
-                setStep(5);
+                setStep(currentStep+1);
                 }}
             >
             Next</button>
@@ -274,7 +270,7 @@ function ContestCompetingAssociations({ form, setForm, setStep, Associations, se
   );
 }
 
-function ContestOrganizingMode({ form, setForm, setStep }: any) {
+function ContestOrganizingMode({ form, setForm, setStep, currentStep }: any) {
   return (
     <div className="box mx-4">
         <h2 className="title is-3 has-text-centered">Organizing Mode</h2>
@@ -293,22 +289,20 @@ function ContestOrganizingMode({ form, setForm, setStep }: any) {
         </div>
 
         <div className="buttons mt-4">
-            <button className="button" onClick={() => setStep(4)}>Back</button>
+            <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
             <button
                 className="button is-primary"
                 onClick={() => {
-                const errors = validateContestStep(5, form);
+                const errors = validateContestStep(currentStep, form);
                 if (errors.length) return alert(errors.join("\n"));
-                setStep(6);
-                }}
-            >Next
-            </button>
+                setStep(currentStep+1);
+            }}>Next</button>
         </div>
     </div>
   );
 }
 
-function ContestTeamSetUp({ form, setForm, setStep }: any) {
+function ContestTeamSetUp({ form, setForm, setStep, currentStep }: any) {
   return (
     <div className="box mx-4">
         <h2 className="title is-3 has-text-centered">Team Setup</h2>
@@ -351,12 +345,12 @@ function ContestTeamSetUp({ form, setForm, setStep }: any) {
         </div>
 
         <div className="buttons mt-4">
-            <button className="button" onClick={() => setStep(5)}>Back</button>
+            <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
             <button className="button is-primary" onClick={() => {
                 console.log(form)
-                const errors = validateContestStep(6, form);
+                const errors = validateContestStep(currentStep, form);
                 if (errors.length) return alert(errors.join("\n"));
-                setStep(7);
+                setStep(currentStep+1);
                 }}
             >Next
             </button>
@@ -365,7 +359,7 @@ function ContestTeamSetUp({ form, setForm, setStep }: any) {
   );
 }
 
-function ExternalContestInfo({ form, setForm, setStep }: any) {
+function ExternalContestInfo({ form, setForm, setStep, currentStep }: any) {
   return (
     <div className="box mx-4">
         <h2 className="title is-3 has-text-centered">External Contest Info</h2>
@@ -398,19 +392,18 @@ function ExternalContestInfo({ form, setForm, setStep }: any) {
         </div>
 
         <div className="buttons mt-4">
-            <button className="button" onClick={() => setStep(5)}>Back</button>
+            <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
             <button className="button is-primary" onClick={() => {
-                const errors = validateContestStep(8, form);
+                const errors = validateContestStep(currentStep, form);
                 if (errors.length) return alert(errors.join("\n"));
-                handleContestCreationSubmit(form);
-                }}>Create Contest
-            </button>
+                setStep(currentStep+1);
+            }}>Next</button>
         </div>
     </div>
   );
 }
 
-function ContestStandingRateMechanism({ form, setForm, setStep }: any) {
+function ContestStandingRateMechanism({ form, setForm, setStep, currentStep }: any) {
   return (
     <div className="box mx-4">
         <h2 className="title is-3 has-text-centered">Standing & Rate Mechanism</h2>
@@ -516,20 +509,18 @@ function ContestStandingRateMechanism({ form, setForm, setStep }: any) {
         </div>
 
         <div className="buttons mt-4">
-        <button className="button" onClick={() => setStep(6)}>Back</button>
+        <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
         <button className="button is-primary" onClick={() => {
-            const errors = validateContestStep(7, form);
+            const errors = validateContestStep(currentStep, form);
             if (errors.length) return alert(errors.join("\n"));
-            setStep(8);
-            }}
-        >
-        Next</button>
+            setStep(currentStep+1);
+        }}>Next</button>
         </div>
     </div>
   );
 }
 
-function ContestQAType({ form, setForm, setStep }: any) {
+function ContestQAType({ form, setForm, setStep, currentStep }: any) {
   return (
     <div className="box mx-4">
         <h2 className="title is-3 has-text-centered">Question Type</h2>
@@ -547,13 +538,12 @@ function ContestQAType({ form, setForm, setStep }: any) {
         </div>
 
         <div className="buttons mt-4">
-            <button className="button" onClick={() => setStep(7)}>Back</button>
+            <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
             <button className="button is-primary" onClick={() => {
-                const errors = validateContestStep(8, form);
+                const errors = validateContestStep(currentStep, form);
                 if (errors.length) return alert(errors.join("\n"));
-                handleContestCreationSubmit(form);
-                }}>Submit Contest
-            </button>
+                setStep(currentStep+1);
+            }}>Next</button>
         </div>
     </div>
   );

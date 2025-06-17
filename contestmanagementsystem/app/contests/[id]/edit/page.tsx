@@ -25,7 +25,7 @@ export default function EditContestPage() {
   const [selectedSponsors, setSelectedSponsors] = useState<string[]>([]);
   const [selectedAssociations, setSelectedAssociations] = useState<string[]>([]);
 
-const [daysLeft, setDaysLeft] = useState('');
+  const [daysLeft, setDaysLeft] = useState('');
   const [registrationPeriod, setRegistrationPeriod] = useState('');
   const [durationInfo, setDurationInfo] = useState('');
 
@@ -158,13 +158,13 @@ const [daysLeft, setDaysLeft] = useState('');
     <div className="container my-6">
       <h1 className="title is-3 has-text-centered">Edit Contest</h1>
 
-      {step === 0 && <ContestInfo form={form} setForm={setForm} setStep={setStep} />}
-      {step === 1 && <ContestTakePlace form={form} setForm={setForm} setStep={setStep} handleMultiSelect={handleMultiSelect} allRegions={allRegions} Categories={categories} />}
-      {step === 2 && <ContestDates form={form} setForm={setForm} setStep={setStep} handleStartDateChange={handleStartDateChange} increase={increase} decrease={decrease} daysLeft={daysLeft} registrationPeriod={registrationPeriod} durationInfo={durationInfo} />}
-      {step === 3 && <ContestSponsors form={form} setForm={setForm} setStep={setStep} toggleSponsor={toggleSponsor} sponsors={sponsors} selectedSponsors={selectedSponsors} />}
-      {step === 4 && <ContestCompetingAssociations form={form} setForm={setForm} setStep={setStep} Associations={associations} selectedAssociations={selectedAssociations} toggleAssociation={toggleAssociation} />}
-      {step === 5 && form.organizingPlace === 'outside' && <ExternalContestInfo form={form} setForm={setForm} setStep={setStep} />}
-      {step === 5 && (
+      {step === 0 && <ContestInfo form={form} setForm={setForm} setStep={setStep} currentStep={step} />}
+      {step === 1 && <ContestTakePlace form={form} setForm={setForm} setStep={setStep} currentStep={step} handleMultiSelect={handleMultiSelect} allRegions={allRegions} Categories={categories} />}
+      {step === 2 && <ContestDates form={form} setForm={setForm} setStep={setStep} currentStep={step} handleStartDateChange={handleStartDateChange} increase={increase} decrease={decrease} daysLeft={daysLeft} registrationPeriod={registrationPeriod} durationInfo={durationInfo} />}
+      {step === 3 && <ContestSponsors form={form} setForm={setForm} setStep={setStep} currentStep={step} toggleSponsor={toggleSponsor} sponsors={sponsors} selectedSponsors={selectedSponsors} />}
+      {step === 4 && <ContestCompetingAssociations form={form} setForm={setForm} setStep={setStep} currentStep={step} Associations={associations} selectedAssociations={selectedAssociations} toggleAssociation={toggleAssociation} />}
+      {step === 5 && form.organizingPlace === 'outside' && <ExternalContestInfo form={form} setForm={setForm} setStep={setStep} currentStep={step} />}
+      {((step === 5 && form.organizingPlace === 'inside') || (step === 6 && form.organizingPlace === 'outside')) && (
         <div className="has-text-centered mt-5">
           <button className="button is-primary" onClick={handleUpdate}>
             Update Contest

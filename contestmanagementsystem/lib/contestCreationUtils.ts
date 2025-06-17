@@ -93,24 +93,7 @@ function validateContestStep(step: number, form: any): string[] {
     return errors;
 };
 
-const handleContestCreationSubmit = async (form: any) => {
-    const res = await fetch('/api/contests', {
-      method: 'POST',
-      body: JSON.stringify(form),
-      headers: { 'Content-Type': 'application/json' },
-    });
-
-    if (res.ok) {
-      alert('Contest submitted successfully!');
-      // Optionally: reset form or redirect
-    } else {
-      alert('Submission failed.');
-    }
-};
-
-
 export {
     handleChange,
     validateContestStep,
-    handleContestCreationSubmit,
 }

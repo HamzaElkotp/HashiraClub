@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 import { defaultContest, allRegions, categories } from '@/constants/contest';
 import { 
   ContestTakePlace, 
@@ -15,9 +16,11 @@ import {
 } from '@/components/CreateContestSteps';
 
 import type { ContestForm } from '@/types/contest';
+import { validateContestStep } from '@/lib/contestCreationUtils';
 
 export default function CreateContestPage() {
-
+  const router = useRouter();
+  
   // Contest info
   const [step, setStep] = useState(0); // current step
   // const [contestId, setContestId] = useState<string | null>(null); // store contest _id after step 0
@@ -54,6 +57,21 @@ export default function CreateContestPage() {
     setDurationInfo(`${hours} hours, ends on ${end.toLocaleDateString()}, ${end.toLocaleTimeString()}`);
   }, [form.publishDate, form.registrationEndDate, form.period.value, form.period.unit, form.startDateTime]);
 
+
+  const handleContestCreationSubmit = async (form: any) => {
+    const res = await fetch('/api/contests', {
+      method: 'POST',
+      body: JSON.stringify(form),
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (res.ok) {
+      alert('Contest Created successfully!');
+      router.push('/contests');
+    } else {
+      alert('Submission failed.');
+    }
+  };
 
   const handleMultiSelect = (e: any) => {
       const selected = Array.from(e.target.selectedOptions, (opt: any) => opt.value);
@@ -236,13 +254,13 @@ export default function CreateContestPage() {
         <div className="container my-6">
           <h1 className="title is-2">Create Contest</h1>
 
-          {step === 0 && <ContestInfo form={form} setForm={setForm} setStep={setStep} />}
+          {step === 0 && <ContestInfo form={form} setForm={setForm} setStep={setStep} currentStep={step} />}
 
-          {step === 1 && <ContestTakePlace form={form} setForm={setForm} setStep={setStep} handleMultiSelect={handleMultiSelect} allRegions={allRegions} Categories={categories} />}
+          {step === 1 && <ContestTakePlace form={form} setForm={setForm} setStep={setStep} currentStep={step} handleMultiSelect={handleMultiSelect} allRegions={allRegions} Categories={categories} />}
 
-          {step === 2 && <ContestDates form={form} setForm={setForm} setStep={setStep} handleStartDateChange={handleStartDateChange} increase={increase} decrease={decrease} daysLeft={daysLeft} registrationPeriod={registrationPeriod} durationInfo={durationInfo} />}
+          {step === 2 && <ContestDates form={form} setForm={setForm} setStep={setStep} currentStep={step} handleStartDateChange={handleStartDateChange} increase={increase} decrease={decrease} daysLeft={daysLeft} registrationPeriod={registrationPeriod} durationInfo={durationInfo} />}
 
-          {step === 3 && <ContestSponsors form={form} setForm={setForm} setStep={setStep} toggleSponsor={toggleSponsor} sponsors={sponsors} selectedSponsors={selectedSponsors} />}
+          {step === 3 && <ContestSponsors form={form} setForm={setForm} setStep={setStep} currentStep={step} toggleSponsor={toggleSponsor} sponsors={sponsors} selectedSponsors={selectedSponsors} />}
 
           {/* {showAddSponsor && (
             <div className="modal is-active">
@@ -292,7 +310,7 @@ export default function CreateContestPage() {
             </div>
           )} */}
 
-          {step === 4 && <ContestCompetingAssociations form={form} setForm={setForm} setStep={setStep} Associations={associations} selectedAssociations={selectedAssociations} toggleAssociation={toggleAssociation} />}
+          {step === 4 && <ContestCompetingAssociations form={form} setForm={setForm} setStep={setStep} currentStep={step} Associations={associations} selectedAssociations={selectedAssociations} toggleAssociation={toggleAssociation} />}
 
           {/* {showAddAssociation && (
             <div className="modal is-active">
@@ -345,15 +363,26 @@ export default function CreateContestPage() {
             </div>
           )} */}
 
-          {step === 5 && <ContestOrganizingMode form={form} setForm={setForm} setStep={setStep} />}
+          {step === 5 && <ContestOrganizingMode form={form} setForm={setForm} setStep={setStep} currentStep={step} />}
 
-          {step === 6 && form.organizingPlace === 'inside' && <ContestTeamSetUp form={form} setForm={setForm} setStep={setStep} />}
+          {step === 6 && form.organizingPlace === 'inside' && <ContestTeamSetUp form={form} setForm={setForm} setStep={setStep} currentStep={step} />}
 
-          {step === 6 && form.organizingPlace === 'outside' && <ExternalContestInfo form={form} setForm={setForm} setStep={setStep} />}
+          {step === 6 && form.organizingPlace === 'outside' && <ExternalContestInfo form={form} setForm={setForm} setStep={setStep} currentStep={step} />}
 
-          {step === 7 && form.organizingPlace === 'inside'  && <ContestStandingRateMechanism form={form} setForm={setForm} setStep={setStep} />}
+          {step === 7 && form.organizingPlace === 'inside'  && <ContestStandingRateMechanism form={form} setForm={setForm} setStep={setStep} currentStep={step} />}
 
-          {step === 8 && form.organizingPlace === 'inside' && <ContestQAType form={form} setForm={setForm} setStep={setStep} />}
+          {step === 8 && form.organizingPlace === 'inside' && <ContestQAType form={form} setForm={setForm} setStep={setStep} currentStep={step} />}
+
+          {((step === 9 && form.organizingPlace === 'inside') || (step === 7 && form.organizingPlace === 'outside')) &&
+            <div className="has-text-centered mt-5">
+              <button className="button is-primary" onClick={() => {
+                  const errors = validateContestStep(step, form);
+                  if (errors.length) return alert(errors.join("\n"));
+                  handleContestCreationSubmit(form);
+                  }}>Submit Contest
+              </button>
+            </div>
+          }
         </div>
     )
 }
