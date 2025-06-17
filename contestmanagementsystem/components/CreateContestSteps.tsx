@@ -245,7 +245,7 @@ function ContestCompetingAssociations({ form, setForm, setStep, currentStep, Ass
                 <div className="tags">
                     {Associations.map((org: any) => (
                         <span
-                            key={org._id}
+                            key={org._id??''}
                             className={`tag is-medium ${selectedAssociations.includes(org._id) ? 'is-info' : ''}`}
                             onClick={() => toggleAssociation(org._id)}
                             style={{ cursor: 'pointer' }}
