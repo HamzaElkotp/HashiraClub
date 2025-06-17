@@ -10,6 +10,7 @@ export default function SponsorModal({ onClose }: { onClose: () => void }) {
     website: '',
     facebook: '',
     twitter: '',
+    linkedin: '',
     isGeneral: false,
   });
 
@@ -83,6 +84,11 @@ export default function SponsorModal({ onClose }: { onClose: () => void }) {
           <div className="field">
             <label className="label">Twitter Link</label>
             <input className="input" name="twitter" value={form.twitter} onChange={handleChange} />
+          </div>
+
+          <div className="field">
+            <label className="label">Linkedin Link</label>
+            <input className="input" name="facebook" value={form.linkedin} onChange={handleChange} />
           </div>
 
           <div className="field">

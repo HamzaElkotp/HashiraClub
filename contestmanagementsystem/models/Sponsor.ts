@@ -7,6 +7,7 @@ const SponsorSchema = new Schema({
   website: { type: String },
   facebook: { type: String },
   twitter: { type: String },
+  linkedin: { type: String },
   isGeneral: { type: Boolean, default: false },
 });
 

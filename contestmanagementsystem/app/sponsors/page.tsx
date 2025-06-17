@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import SponsorModal from '@/components/SponsorModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGlobe } from '@fortawesome/free-solid-svg-icons'
-import { faFacebookF, faXTwitter } from '@fortawesome/free-brands-svg-icons'
+import { faFacebookF, faXTwitter, faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
 import ReactMarkdown from 'react-markdown';
 
 export default function SponsorsPage() {
@@ -55,6 +55,7 @@ export default function SponsorsPage() {
                                     {s.website && <a href={s.website} target="_blank"><FontAwesomeIcon icon={faGlobe} /></a>}
                                     {s.facebook && <> | <a href={s.facebook} target="_blank"><FontAwesomeIcon icon={faFacebookF} /></a></>}
                                     {s.twitter && <> | <a href={s.twitter} target="_blank"><FontAwesomeIcon icon={faXTwitter} /></a></>}
+                                    {s.linkedin && <> | <a href={s.linkedin} target="_blank"><FontAwesomeIcon icon={faLinkedinIn} /></a></>}
                                 </div>
                             </div>
                         </div>
