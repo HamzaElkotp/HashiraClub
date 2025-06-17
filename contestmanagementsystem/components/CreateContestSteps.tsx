@@ -7,7 +7,7 @@ import { ContestForm } from '@/types/contest';
 
 function ContestInfo({ form, setForm, setStep, currentStep }: any) {
   return (
-    <div className="box mx-4">
+    <div className="box">
 
       <h2 className="title is-3 has-text-centered">Contest Details</h2>          
 
@@ -65,7 +65,7 @@ function ContestInfo({ form, setForm, setStep, currentStep }: any) {
 
 function ContestTakePlace({ form, setForm, setStep, currentStep, handleMultiSelect, allRegions, Categories }: any) {
   return (
-    <div className="box mx-4">
+    <div className="box">
         <h2 className="title is-3 has-text-centered">Contest Take place</h2>
         <div className="field">
             <label className="label">Contest Type *</label>
@@ -127,7 +127,7 @@ function ContestTakePlace({ form, setForm, setStep, currentStep, handleMultiSele
 
 function ContestDates({ form, setForm, setStep, currentStep, handleStartDateChange, increase, decrease, daysLeft, registrationPeriod, durationInfo }: any) {
   return (
-    <div className="box mx-4">
+    <div className="box">
         <h2 className="title is-3 has-text-centered">Contest Dates</h2>
         <div className="field">
             <label className="label">Publish Date *</label>
@@ -191,7 +191,7 @@ function ContestDates({ form, setForm, setStep, currentStep, handleStartDateChan
 
 function ContestSponsors({ form, setForm, setStep, currentStep, toggleSponsor, sponsors, selectedSponsors }: any) {
   return (
-    <div className="box mx-4">
+    <div className="box">
         <h2 className="title is-3 has-text-centered">Contest Sponsors</h2>
         {/* <div className="buttons mb-4">
             <button className="button is-link" onClick={() => setShowAddSponsor(true)}>Add New Sponsor</button>
@@ -202,7 +202,7 @@ function ContestSponsors({ form, setForm, setStep, currentStep, toggleSponsor, s
             ) : (
                 <div className="tags">
                     {sponsors.map((sponsor: any) => (
-                        <div key={sponsor._id??''} className="box mx-4 is-flex is-justify-content-space-between">
+                        <div key={sponsor._id??''} className="box is-flex is-justify-content-space-between">
                             <div>
                                 <strong>{sponsor.companyName}</strong>
                                 <p className="is-size-7">{sponsor.description}</p>
@@ -230,7 +230,7 @@ function ContestSponsors({ form, setForm, setStep, currentStep, toggleSponsor, s
 
 function ContestCompetingAssociations({ form, setForm, setStep, currentStep, Associations, selectedAssociations, toggleAssociation }: any) {
   return (
-    <div className="box mx-4">
+    <div className="box">
         <h2 className="title is-3 has-text-centered">Competing Associations</h2>
         {/* <div className="buttons is-right">
             <button className="button is-primary is-small" onClick={() => setShowAddAssociation(true)}>
@@ -270,7 +270,7 @@ function ContestCompetingAssociations({ form, setForm, setStep, currentStep, Ass
 
 function ContestOrganizingMode({ form, setForm, setStep, currentStep }: any) {
   return (
-    <div className="box mx-4">
+    <div className="box">
         <h2 className="title is-3 has-text-centered">Organizing Mode</h2>
 
         <div className="field">
@@ -302,7 +302,7 @@ function ContestOrganizingMode({ form, setForm, setStep, currentStep }: any) {
 
 function ContestTeamSetUp({ form, setForm, setStep, currentStep }: any) {
   return (
-    <div className="box mx-4">
+    <div className="box">
         <h2 className="title is-3 has-text-centered">Team Setup</h2>
 
         <div className="field">
@@ -357,7 +357,7 @@ function ContestTeamSetUp({ form, setForm, setStep, currentStep }: any) {
 
 function ExternalContestInfo({ form, setForm, setStep, currentStep }: any) {
   return (
-    <div className="box mx-4">
+    <div className="box">
         <h2 className="title is-3 has-text-centered">External Contest Info</h2>
 
         <div className="field">
@@ -401,7 +401,7 @@ function ExternalContestInfo({ form, setForm, setStep, currentStep }: any) {
 
 function ContestStandingRateMechanism({ form, setForm, setStep, currentStep }: any) {
   return (
-    <div className="box mx-4">
+    <div className="box">
         <h2 className="title is-3 has-text-centered">Standing & Rate Mechanism</h2>
 
         <div className="field">
@@ -518,7 +518,7 @@ function ContestStandingRateMechanism({ form, setForm, setStep, currentStep }: a
 
 function ContestQAType({ form, setForm, setStep, currentStep }: any) {
   return (
-    <div className="box mx-4">
+    <div className="box">
         <h2 className="title is-3 has-text-centered">Question Type</h2>
 
         <div className="field">

@@ -80,7 +80,7 @@ export default function ContestDashboard() {
 
   return (
     <div className="container my-6">
-      <h1 className="title is-2 has-text-centered">Contest Management SubSystem</h1>
+      <h1 className="title">Contests Management</h1>
       <div className="buttons is-right">
         <Link href="/contests/create" className="button is-primary is-meduim">
             Create Contest

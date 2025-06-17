@@ -3,12 +3,11 @@ import mongoose, { Schema } from 'mongoose';
 const SponsorSchema = new Schema({
   companyName: { type: String, required: true },
   description: { type: String, required: true },
-  facebook: String,
-  twitter: String,
-  website: String,
-  logo: String, // path or URL to logo image
-}, {
-  timestamps: true,
+  logo: { type: String, required: true },
+  website: { type: String },
+  facebook: { type: String },
+  twitter: { type: String },
+  isGeneral: { type: Boolean, default: false },
 });
 
-export const Sponsor = mongoose.models.Sponsor || mongoose.model('Sponsor', SponsorSchema);
+export default mongoose.models.Sponsor || mongoose.model('Sponsor', SponsorSchema);

@@ -252,7 +252,7 @@ export default function CreateContestPage() {
 
     return  (
         <div className="container my-6">
-          <h1 className="title is-2">Create Contest</h1>
+          <h1 className="title">Create Contest</h1>
 
           {step === 0 && <ContestInfo form={form} setForm={setForm} setStep={setStep} currentStep={step} />}
 

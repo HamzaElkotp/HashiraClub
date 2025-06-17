@@ -33,12 +33,12 @@ export default function ManageProblemsPage() {
 
   return (
     <div className="container my-6">
-      <h1 className="title is-3">Manage Problems</h1>
+      <h1 className="title">Manage Contest Questions</h1>
       <h3 className="subtitle mt-2 is-4 has-text-weight-bold">{contest?.name}</h3>
 
 
       <div className='grid'>
-        <h2 className="title is-5">Added Questions</h2>
+        <h2 className="title is-5">Questions</h2>
         <div className="buttons is-right">
           <button className="button is-primary" onClick={() => setShowModal(true)}>
               Add New Question

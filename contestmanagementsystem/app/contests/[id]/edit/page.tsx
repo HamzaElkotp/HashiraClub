@@ -156,7 +156,7 @@ export default function EditContestPage() {
 
   return (
     <div className="container my-6">
-      <h1 className="title is-3 has-text-centered">Edit Contest</h1>
+      <h1 className="title">Edit Contest</h1>
 
       {step === 0 && <ContestInfo form={form} setForm={setForm} setStep={setStep} currentStep={step} />}
       {step === 1 && <ContestTakePlace form={form} setForm={setForm} setStep={setStep} currentStep={step} handleMultiSelect={handleMultiSelect} allRegions={allRegions} Categories={categories} />}
