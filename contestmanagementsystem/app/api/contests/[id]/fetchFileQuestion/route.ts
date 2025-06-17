@@ -5,7 +5,7 @@ import FileQuestion from '@/models/FileQuestion';
 export async function GET(request: NextRequest, context: any) {
   try {
     await connectToDatabase();
-    const { id } = context.params;
+    const { id } = await context.params;
     const questions = await FileQuestion.find({ contestId: id });
     return new Response(JSON.stringify(questions), { status: 200 });
   } catch (err) {
