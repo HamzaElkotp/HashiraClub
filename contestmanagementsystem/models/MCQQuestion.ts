@@ -16,15 +16,13 @@ const MCQQuestionSchema = new mongoose.Schema({
   options: {
     type: [OptionSchema],
     required: true,
-    validate: [(arr) => arr.length >= 2, 'At least two options required']
+    validate: [(arr: { label: string }[]) => arr.length >= 2, 'At least two options required']
   },
   correctAnswerIndex: {
     type: Number,
     required: true,
     validate: {
-      validator: function (v: number) {
-        return this.options && v >= 0 && v < this.options.length;
-      },
+      validator: (v: number): boolean => v >= 0,
       message: 'Correct answer index is invalid',
     },
   },

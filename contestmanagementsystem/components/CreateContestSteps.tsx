@@ -2,6 +2,10 @@
 import React from 'react';
 import { handleChange, validateContestStep, handleContestCreationSubmit} from '@/lib/contestCreationUtils';
 import ReactMarkdown from 'react-markdown';
+import { ContestForm } from '@/types/contest';
+
+// const [form, setForm] = useState<ContestForm>(defaultContest);
+
 
 function ContestInfo({ form, setForm, setStep }: any) {
   return (
@@ -71,7 +75,10 @@ function ContestTakePlace({ form, setForm, setStep, handleMultiSelect, allRegion
                 <select
                     name="isOnline"
                     value={form.isOnline ? 'true' : 'false'}
-                    onChange={(e) => setForm(prev => ({ ...prev, isOnline: e.target.value === 'true' }))}
+                    onChange={(e) => setForm((prev: ContestForm) => ({
+                        ...prev,
+                        isOnline: e.target.value === 'true',
+                    }))}
                     required
                 >
                     <option value="true">Online</option>

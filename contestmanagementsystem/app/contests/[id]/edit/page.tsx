@@ -11,10 +11,13 @@ import {
   ExternalContestInfo,
 } from '@/components/CreateContestSteps';
 
+import type { ContestForm } from '@/types/contest';
+
+
 export default function EditContestPage() {
   const router = useRouter();
   const { id } = useParams();
-  const [form, setForm] = useState(defaultContest);
+  const [form, setForm] = useState<ContestForm>(defaultContest);
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(true);
   const [sponsors, setSponsors] = useState([]);
@@ -38,7 +41,6 @@ const [daysLeft, setDaysLeft] = useState('');
       }
       const data = await res.json();
       setForm(data);
-      console.log(data);
       setSelectedSponsors(data.sponsors || []);
       setSelectedAssociations(data.associations || []);
       setLoading(false);
@@ -63,8 +65,14 @@ const [daysLeft, setDaysLeft] = useState('');
       setDaysLeft(`${left} days left for publishing the contest for public`);
     }
 
-    const units = { halfHours: 0.5, days: 24, weeks: 168 };
-    const hours = form.period.value * units[form.period.unit];
+    type PeriodUnit = 'halfHours' | 'days' | 'weeks';
+
+    const units: Record<PeriodUnit, number> = {
+      halfHours: 0.5,
+      days: 24,
+      weeks: 168,
+    };
+    const hours = form.period.value * units[form.period.unit as PeriodUnit];
     const pub = form.startDateTime ? new Date(form.startDateTime) : new Date();
     const end = new Date(pub.getTime() + hours * 3600 * 1000);
     setDurationInfo(`${hours} hours, ends on ${end.toLocaleDateString()}, ${end.toLocaleTimeString()}`);

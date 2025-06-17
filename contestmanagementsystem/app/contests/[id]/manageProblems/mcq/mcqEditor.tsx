@@ -6,10 +6,14 @@ export default function McqEditor({ contestId, initialData, onClose }: { contest
   const [title, setTitle] = useState(initialData?.title || '');
   const [details, setDetails] = useState(initialData?.details || '');
   const [hint, setHint] = useState(initialData?.hint || '');
-  const [options, setOptions] = useState(initialData?.options?.map((o: any) => o.label) || ['', '']);
+
+  const [options, setOptions] = useState<string[]>(
+    initialData?.options?.map((o: any) => o.label) || ['', '']
+  );
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState(
     typeof initialData?.correctAnswerIndex === 'number' ? initialData.correctAnswerIndex : null
   );
+
 
   const handleOptionChange = (index: number, value: string) => {
     const updated = [...options];

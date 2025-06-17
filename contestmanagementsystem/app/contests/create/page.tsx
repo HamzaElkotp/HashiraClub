@@ -14,15 +14,14 @@ import {
   ContestQAType
 } from '@/components/CreateContestSteps';
 
-import Link from 'next/link';
-
+import type { ContestForm } from '@/types/contest';
 
 export default function CreateContestPage() {
 
   // Contest info
   const [step, setStep] = useState(0); // current step
   // const [contestId, setContestId] = useState<string | null>(null); // store contest _id after step 0
-  const [form, setForm] = useState(defaultContest);
+  const [form, setForm] = useState<ContestForm>(defaultContest);
   const [daysLeft, setDaysLeft] = useState('');
   const [registrationPeriod, setRegistrationPeriod] = useState('');
   const [durationInfo, setDurationInfo] = useState('');
@@ -42,8 +41,14 @@ export default function CreateContestPage() {
       setDaysLeft(`${left} days left for publishing the contest for public`);
     }
 
-    const units = { halfHours: 0.5, days: 24, weeks: 168 };
-    const hours = form.period.value * units[form.period.unit];
+    type PeriodUnit = 'halfHours' | 'days' | 'weeks';
+
+    const units: Record<PeriodUnit, number> = {
+      halfHours: 0.5,
+      days: 24,
+      weeks: 168,
+    };
+    const hours = form.period.value * units[form.period.unit as PeriodUnit];
     const pub = form.startDateTime ? new Date(form.startDateTime) : new Date();
     const end = new Date(pub.getTime() + hours * 3600 * 1000);
     setDurationInfo(`${hours} hours, ends on ${end.toLocaleDateString()}, ${end.toLocaleTimeString()}`);
@@ -90,7 +95,7 @@ export default function CreateContestPage() {
 
 
   // Sponsors Info
-  const [sponsors, setSponsors] = useState([]);
+  const [sponsors, setSponsors] = useState<any>([]);
   const [selectedSponsors, setSelectedSponsors] = useState<string[]>([]);
   // const [showAddSponsor, setShowAddSponsor] = useState(false);
   // const [newSponsor, setNewSponsor] = useState({
@@ -113,7 +118,6 @@ export default function CreateContestPage() {
       }
 
       const data = await res.json();
-      console.log(data);
 
       if (!Array.isArray(data)) {
         console.error('Invalid sponsor data format:', data);
@@ -155,7 +159,7 @@ export default function CreateContestPage() {
 
 
   // Association Info
-  const [associations, setAssociations] = useState([]);
+  const [associations, setAssociations] = useState([Object]);
   const [selectedAssociations, setSelectedAssociations] = useState<string[]>([]);
   // const [showAddAssociation, setShowAddAssociation] = useState(false);
   // const [newAssociation, setNewAssociation] = useState({

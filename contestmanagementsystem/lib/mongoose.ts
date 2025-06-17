@@ -1,25 +1,22 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-  throw new Error('Please define MONGODB_URI in .env.local');
-}
-
 let isConnected = false;
 
 export async function connectToDatabase() {
   if (isConnected) return;
 
-  try {
-    await mongoose.connect(MONGODB_URI, {
-      dbName: 'HashiraClubSystem', // optional but recommended
-    });
+  const uri:string = "mongodb+srv://hmzt25235:3KbiP8cTAlmsNldR@cluster0.lpl0c9y.mongodb.net/HashiraClubSystem?retryWrites=true&w=majority&appName=Cluster0";
 
+  if (!uri) {
+    throw new Error('MONGODB_URI is not defined in environment variables.');
+  }
+
+  try {
+    await mongoose.connect(uri, { dbName: 'HashiraClubSystem' });
     isConnected = true;
-    console.log('[MongoDB] Connected');
-  } catch (err) {
-    console.error('[MongoDB] Connection failed:', err);
-    throw err;
+    console.log('MongoDB connected');
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    throw error;
   }
 }

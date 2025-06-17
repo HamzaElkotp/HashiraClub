@@ -4,7 +4,13 @@ import McqEditor from './mcq/McqEditor';
 import FileConfigEditor from './file/FileConfigEditor';
 
 export default function ProblemList({ contestId, questionType }: { contestId: string, questionType:string }) {
-  const [questions, setQuestions] = useState<any[]>([]);
+  type Question = {
+    _id: string;
+    title: string;
+    details: string;
+    type?: string; // optional if mixed
+  };
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [editingQuestion, setEditingQuestion] = useState<any | null>(null);
 
 
@@ -38,12 +44,12 @@ export default function ProblemList({ contestId, questionType }: { contestId: st
 
   return (
     <div className="my-4">
-      {!questions && questions.length === 0 ? (
+      {questions.length === 0 ? (
         <p>No questions added yet.</p>
       ) : questions && (
         <div className="columns is-multiline is-3">
             {questions.map((q, index) => (
-                <div className="column is-one-quarter" key={index}>
+                <div className="column is-one-quarter" key={q._id}>
                     <div className="box">
                         <strong>{index + 1}. {q.title}</strong>
                         <p className="is-size-7 has-text-grey">Type: {questionType}</p>

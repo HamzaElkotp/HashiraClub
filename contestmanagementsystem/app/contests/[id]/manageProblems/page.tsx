@@ -8,9 +8,17 @@ import AddQuestionModal from './AddQuestionModal';
 import ProblemList from './ProblemList';
 
 export default function ManageProblemsPage() {
-  const { id } = useParams(); // ✅ must be inside the component
+  const params = useParams<{ id: string }>();
+  const id = params.id;
+  
   const [showModal, setShowModal] = useState(false);
-  const [contest, setContest] = useState(null);
+  type Contest = {
+    _id: string;
+    name: string;
+    questionType: 'form' | 'mcq' | 'file';
+  };
+  const [contest, setContest] = useState<Contest | null>(null);
+
 
   useEffect(() => {
     const fetchContest = async () => {
@@ -46,7 +54,7 @@ export default function ManageProblemsPage() {
       {showModal && (
         <AddQuestionModal
           contestId={id}
-          questionType={contest?.questionType}
+          questionType={contest?.questionType || 'mcq'}
           onClose={() => setShowModal(false)}
         />
       )}

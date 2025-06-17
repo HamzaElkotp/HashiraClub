@@ -90,7 +90,9 @@ export default function ContestDashboard() {
         {contests.map((contest: any) => (
           <div key={contest._id} className="column is-one-third">
             <div className="box has-text-centered">
-              <img src={contest.banner} alt="Banner" style={{ width: '100%', height: '180px', objectFit: 'cover' }} />
+              <div className='image is-16by9'>
+                <img src={contest.image} alt="Banner" style={{ width: '100%', objectFit: 'cover' }} />
+              </div>
               <h2 className="title is-5 mt-3">{contest.name}</h2>
               <p className="has-text-centered has-text-grey is-size-6 mb-5">{returnContestStatus(contest)}</p>
               <div className="mt-4 mb-2 columns is-2 is-multiline">
