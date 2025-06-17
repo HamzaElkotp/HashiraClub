@@ -79,7 +79,7 @@ function validateContestStep(step: number, form: any): string[] {
     }
 
     if (step === 7 && form.organizingPlace === "inside") {
-        if (!form.hasPenalty) errors.push("Penalty option is required.");
+        if (form.hasPenalty === null || form.hasPenalty === undefined) errors.push("Penalty option is required.");
         if (!form.rateMethod) errors.push("Rate method is required.");
         if (!form.resultVisibility) errors.push("Result visibility option is required.");
         if (!form.resultPublishing) errors.push("Result publishing option is required.");

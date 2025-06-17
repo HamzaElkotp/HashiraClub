@@ -413,13 +413,13 @@ function ContestStandingRateMechanism({ form, setForm, setStep, currentStep }: a
             <div className="select is-fullwidth">
                 <select
                     name="hasPenalty"
-                    value={String(form.hasPenalty)}
-                    onChange={(e) =>
-                    setForm((prev: any) => ({ ...prev, hasPenalty: e.target.value === 'true' }))
-                    }
+                    value={form.hasPenalty ? 'true' : 'false'}
+                    onChange={(e) => setForm((prev: ContestForm) => ({
+                        ...prev,
+                        hasPenalty: e.target.value === 'true',
+                    }))}
                     required
                 >
-                <option value="">-- Please Choose --</option>
                 <option value="true">Yes</option>
                 <option value="false">No</option>
                 </select>
