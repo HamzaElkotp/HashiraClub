@@ -10,6 +10,12 @@ export default function Dashboard() {
           <Link href="/contests" className="button is-primary">
             Go to contest System
           </Link>
+          <Link href="/sponsors" className="button is-primary">
+            Go to Sponsors System
+          </Link>
+          <Link href="/associations" className="button is-primary">
+            Go to Association System
+          </Link>
         </div>
       </div>
     </div>
