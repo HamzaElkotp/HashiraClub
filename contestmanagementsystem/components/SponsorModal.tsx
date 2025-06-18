@@ -2,8 +2,8 @@
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
-export default function SponsorModal({ onClose }: { onClose: () => void }) {
-  const [form, setForm] = useState({
+export default function SponsorModal({ onClose, onSucess, mode, preList }: { onClose: () => void, onSucess: () => void, mode:string, preList:any }) {
+  const [form, setForm] = useState(preList?.editingSponsor || {
     companyName: '',
     description: '',
     logo: '',
@@ -15,10 +15,12 @@ export default function SponsorModal({ onClose }: { onClose: () => void }) {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value, type, checked } = e.target;
-    setForm(prev => ({
+    const { name, value, type } = e.target;
+    setForm((prev:object) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox'
+      ? (e.target as HTMLInputElement).checked
+      : value,
     }));
   };
 
@@ -37,8 +39,30 @@ export default function SponsorModal({ onClose }: { onClose: () => void }) {
     if (res.ok) {
       alert('Sponsor added!');
       onClose();
+      onSucess();
     } else {
       alert('Failed to add sponsor.');
+    }
+  };
+
+  const handleUpdateSponsor = async () => {
+    console.log(preList?.editingSponsor?._id)
+    const res = await fetch(`/api/sponsors/${preList?.editingSponsor?._id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    });
+
+    if (res.ok) {
+      alert('Updated sponsor.');
+      const updated = await res.json();
+      preList?.setSponsors((prev:any) =>
+        prev.map((s:any) => (s?._id === updated._id ? updated : s))
+      );
+      // setShowEditModal(false);
+      preList?.setEditingSponsor(null);
+    } else {
+      alert('Failed to update sponsor.');
     }
   };
 
@@ -47,7 +71,7 @@ export default function SponsorModal({ onClose }: { onClose: () => void }) {
       <div className="modal-background" onClick={onClose}></div>
       <div className="modal-card">
         <header className="modal-card-head">
-          <p className="modal-card-title">Add Sponsor</p>
+          <p className="modal-card-title">{mode} Sponsor</p>
           <button className="delete" aria-label="close" onClick={onClose}></button>
         </header>
 
@@ -100,7 +124,15 @@ export default function SponsorModal({ onClose }: { onClose: () => void }) {
         </section>
 
         <footer className="modal-card-foot">
-          <button className="button is-success" onClick={handleSubmit}>Save</button>
+          <>
+            {mode === 'Edit' && (
+              <button className="button is-success" onClick={handleUpdateSponsor}>Save changes</button>
+            )}
+
+            {mode === 'Add' && (
+              <button className="button is-success" onClick={handleSubmit}>Create Sponsor</button>
+            )}
+          </>
           <button className="button" onClick={onClose}>Cancel</button>
         </footer>
       </div>
