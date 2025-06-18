@@ -74,7 +74,7 @@ export default function SponsorsPage() {
                         </figure>
                         <div className="media-content">
                             <div className="content">
-                                <div className="tags has-addons mb-0" style={{opacity: '0.8'}}>
+                                <div className="tags has-addons mb-1" style={{opacity: '0.8'}}>
                                     <span className="tag is-dark" style={{fontSize: '10px'}}>Type</span>
                                     <span className="tag is-primary" style={{fontSize: '10px'}}>{s.isGeneral ? "General Sponsor" : "Private Sponsor"}</span>
                                 </div>
