@@ -174,8 +174,8 @@ export default function CreateContestPage() {
         method: 'POST',
         body: JSON.stringify({
           ...form,
-          selectedAssociations,
-          selectedSponsors
+          associations: selectedAssociations,
+          sponsors: selectedSponsors
         }),
         headers: { 'Content-Type': 'application/json' },
       });

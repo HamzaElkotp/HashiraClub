@@ -16,13 +16,13 @@ const ContestSchema = new Schema({
   isOnline: { type: Boolean, required: true },
   regions: [{ type: String }],
   category: { type: String, required: true },
-  selectedAssociations: {
+  associations: {
     type: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Associations'
     }]
   },
-  selectedSponsors: {
+  sponsors: {
     type: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Sponsors'

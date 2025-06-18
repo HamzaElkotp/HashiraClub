@@ -73,7 +73,9 @@ export default function ProblemList({ contestId, questionType }: { contestId: st
           initialData={editingQuestion}
           onClose={() => {
             setEditingQuestion(null);
-            fetchQuestions(); // refresh after edit
+          }}
+          onSuccess={() => {
+            fetchQuestions();
           }}
         />
       )}
@@ -83,6 +85,8 @@ export default function ProblemList({ contestId, questionType }: { contestId: st
           initialData={editingQuestion}
           onClose={() => {
             setEditingQuestion(null);
+          }}
+          onSuccess={() => {
             fetchQuestions();
           }}
         />

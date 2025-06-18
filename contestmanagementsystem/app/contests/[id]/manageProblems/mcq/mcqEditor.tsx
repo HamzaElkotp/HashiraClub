@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
-export default function McqEditor({ contestId, initialData, onClose }: { contestId: string, initialData?: any, onClose: () => void }) {
+export default function McqEditor({ contestId, initialData, onClose, onSuccess }: { contestId: string, initialData?: any, onClose: () => void, onSuccess: () => void }) {
   const [title, setTitle] = useState(initialData?.title || '');
   const [details, setDetails] = useState(initialData?.details || '');
   const [hint, setHint] = useState(initialData?.hint || '');
@@ -64,6 +64,7 @@ export default function McqEditor({ contestId, initialData, onClose }: { contest
 
     if (res.ok) {
       alert('MCQ question saved to DB!');
+      onSuccess();
       onClose();
     } else {
       alert('Failed to save question');

@@ -201,7 +201,8 @@ function ContestSponsors({ form, setForm, setStep, currentStep, toggleSponsor, s
                     {sponsors.map((sponsor: any) => (
                         <div key={sponsor._id??''} 
                         className={`box ${selectedSponsors.includes(sponsor._id) ? 'has-background-grey-dark' : ''} is-flex is-justify-content-space-between`}
-                        onClick={() => toggleSponsor(sponsor._id)}>
+                        onClick={() => toggleSponsor(sponsor._id)}
+                        style={{ cursor: 'pointer' }}>
                             <div className='is-block'>
                                 <img className='image is-64x64 mx-auto' src={sponsor.logo} alt="" />
                                 <p className={`${selectedSponsors.includes(sponsor._id) ? 'has-text-white' : ''}`}>{sponsor.companyName}</p>

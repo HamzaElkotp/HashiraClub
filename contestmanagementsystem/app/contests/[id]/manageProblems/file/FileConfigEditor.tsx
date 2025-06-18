@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
-export default function FileConfigEditor({ contestId, initialData, onClose }: { contestId: string, initialData?: any, onClose: () => void }) {
+export default function FileConfigEditor({ contestId, initialData, onClose, onSuccess }: { contestId: string, initialData?: any, onClose: () => void, onSuccess: () => void }) {
   const [title, setTitle] = useState(initialData?.title || '');
   const [details, setDetails] = useState(initialData?.details || '');
 
@@ -31,6 +31,7 @@ export default function FileConfigEditor({ contestId, initialData, onClose }: { 
 
     if (res.ok) {
       alert('File question saved successfully!');
+      onSuccess()
       onClose();
     } else {
       alert('Failed to create file question.');
