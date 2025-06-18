@@ -16,6 +16,9 @@ export default function Dashboard() {
           <Link href="/associations" className="button is-primary">
             Go to Association System
           </Link>
+          <Link href="/contestCategories" className="button is-primary">
+            Go to Contest Categories System
+          </Link>
         </div>
       </div>
     </div>
