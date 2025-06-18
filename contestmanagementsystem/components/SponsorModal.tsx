@@ -126,11 +126,11 @@ export default function SponsorModal({ onClose, onSucess, mode, preList }: { onC
         <footer className="modal-card-foot">
           <>
             {mode === 'Edit' && (
-              <button className="button is-success" onClick={handleUpdateSponsor}>Save changes</button>
+              <button className="button is-primary mr-2" onClick={handleUpdateSponsor}>Save changes</button>
             )}
 
             {mode === 'Add' && (
-              <button className="button is-success" onClick={handleSubmit}>Create Sponsor</button>
+              <button className="button is-primary mr-2" onClick={handleSubmit}>Create Sponsor</button>
             )}
           </>
           <button className="button" onClick={onClose}>Cancel</button>

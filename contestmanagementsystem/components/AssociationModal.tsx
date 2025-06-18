@@ -112,11 +112,11 @@ export default function AssociationModal({ onClose, onSucess, mode, preList }: {
         <footer className="modal-card-foot">
           <>
             {mode === 'Edit' && (
-              <button className="button is-success" onClick={handleUpdateAssociation}>Save changes</button>
+              <button className="button is-primary mr-2" onClick={handleUpdateAssociation}>Save changes</button>
             )}
 
             {mode === 'Add' && (
-              <button className="button is-success" onClick={handleSubmit}>Create Association</button>
+              <button className="button is-primary mr-2" onClick={handleSubmit}>Create Association</button>
             )}
           </>
           <button className="button" onClick={onClose}>Cancel</button>
