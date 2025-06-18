@@ -2,10 +2,17 @@
 import mongoose from 'mongoose';
 
 const AssociationSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  description: String,
+  associationName: { type: String, required: true },
+  description: { type: String, required: true },
+  location: { type: String, required: true },
+  coachID: {
+    type: String,
+    // type: mongoose.Schema.Types.ObjectId,
+    // ref: 'User',
+    required: true,
+  },
   website: String,
-  logo: String, // Will be updated when upload is handled
+  logo: { type: String, required: true }, // Will be updated when upload is handled
 }, { timestamps: true });
 
 export const Association = mongoose.models.Association || mongoose.model('Association', AssociationSchema);
