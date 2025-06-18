@@ -20,6 +20,7 @@ const defaultContest = {
   minTeamSize: 1,
   maxTeamSize: 1,
   teamCondition: '',
+  teamCoach: '',
   hasPenalty: false,
   rateMethod: '',
   resultVisibility: '',

@@ -34,6 +34,7 @@ const ContestSchema = new Schema({
   minTeamSize: Number,
   maxTeamSize: Number,
   teamCondition: String,
+  teamCoach: String,
   hasPenalty: Boolean,
   rateMethod: String,
   resultVisibility: String,

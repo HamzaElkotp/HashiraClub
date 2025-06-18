@@ -330,6 +330,26 @@ function ContestTeamSetUp({ form, setForm, setStep, currentStep }: any) {
             </div>
         </div>
 
+        <div className="field">
+            <label className="label">Team Coach *</label>
+            <div className="select is-fullwidth">
+                <select
+                    name="teamCoach"
+                    value={form?.teamCoach ? form?.teamCoach : 'Mand'}
+                    onChange={(e) => setForm((prev: ContestForm) => ({
+                        ...prev,
+                        teamCoach: e.target.value,
+                    }))}
+                    required
+                >
+                    <option value="Mand">Coach is mandatory</option>
+                    <option value="Opt">Coach is optional</option>
+                    <option value="No">No need to coach</option>
+                </select>
+            </div>
+        </div>
+
+
         <div className="buttons mt-4">
             <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
             <button className="button is-primary" onClick={() => {

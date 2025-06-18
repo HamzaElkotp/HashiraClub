@@ -20,6 +20,7 @@ export type ContestForm = {
   minTeamSize: number;
   maxTeamSize: number;
   teamCondition: string;
+  teamCoach: '',
   hasPenalty: boolean;
   rateMethod: string;
   resultVisibility: string;
