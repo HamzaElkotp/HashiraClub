@@ -112,7 +112,7 @@ export default function SponsorModal({ onClose, onSucess, mode, preList }: { onC
 
           <div className="field">
             <label className="label">Linkedin Link</label>
-            <input className="input" name="facebook" value={form.linkedin} onChange={handleChange} />
+            <input className="input" name="linkedin" value={form.linkedin} onChange={handleChange} />
           </div>
 
           <div className="field">
