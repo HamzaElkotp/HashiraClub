@@ -193,24 +193,19 @@ function ContestSponsors({ form, setForm, setStep, currentStep, toggleSponsor, s
   return (
     <div className="box">
         <h2 className="title is-3 has-text-centered">Contest Sponsors</h2>
-        {/* <div className="buttons mb-4">
-            <button className="button is-link" onClick={() => setShowAddSponsor(true)}>Add New Sponsor</button>
-        </div> */}
         <div className="content">
             {sponsors.length === 0 ? (
                 <p>No Sponsors available.</p>
             ) : (
                 <div className="tags">
                     {sponsors.map((sponsor: any) => (
-                        <div key={sponsor._id??''} className="box is-flex is-justify-content-space-between">
-                            <div>
-                                <strong>{sponsor.companyName}</strong>
-                                <p className="is-size-7">{sponsor.description}</p>
+                        <div key={sponsor._id??''} 
+                        className={`box ${selectedSponsors.includes(sponsor._id) ? 'has-background-grey-dark' : ''} is-flex is-justify-content-space-between`}
+                        onClick={() => toggleSponsor(sponsor._id)}>
+                            <div className='is-block'>
+                                <img className='image is-64x64 mx-auto' src={sponsor.logo} alt="" />
+                                <p className={`${selectedSponsors.includes(sponsor._id) ? 'has-text-white' : ''}`}>{sponsor.companyName}</p>
                             </div>
-                            <button className={`button is-small ${selectedSponsors.includes(sponsor._id) ? 'is-success' : ''}`}
-                                onClick={() => toggleSponsor(sponsor._id)}>
-                                {selectedSponsors.includes(sponsor._id) ? 'Selected' : 'Select'}
-                            </button>
                         </div>
                     ))}
                 </div>
@@ -232,12 +227,6 @@ function ContestCompetingAssociations({ form, setForm, setStep, currentStep, Ass
   return (
     <div className="box">
         <h2 className="title is-3 has-text-centered">Competing Associations</h2>
-        {/* <div className="buttons is-right">
-            <button className="button is-primary is-small" onClick={() => setShowAddAssociation(true)}>
-                Add New Associations
-            </button>
-        </div> */}
-
         <div className="content">
             {Associations.length === 0 ? (
                 <p>No Associations available.</p>
@@ -246,10 +235,10 @@ function ContestCompetingAssociations({ form, setForm, setStep, currentStep, Ass
                     {Associations.map((org: any) => (
                         <span
                             key={org._id??''}
-                            className={`tag is-medium ${selectedAssociations.includes(org._id) ? 'is-info' : ''}`}
+                            className={`tag is-medium ${selectedAssociations.includes(org._id) ? 'is-primary' : ''}`}
                             onClick={() => toggleAssociation(org._id)}
                             style={{ cursor: 'pointer' }}
-                        >{org.name}
+                        >{org.associationName}
                         </span>
                     ))}
                 </div>
@@ -259,8 +248,6 @@ function ContestCompetingAssociations({ form, setForm, setStep, currentStep, Ass
         <div className="buttons mt-4">
             <button className="button" onClick={() => setStep(currentStep-1)}>Back</button>
             <button className="button is-primary" onClick={() => {
-                // const errors = validateContestStep(currentStep, form);
-                // if (errors.length) return alert(errors.join("\n"));
                 setStep(currentStep+1);
             }}>Next</button>
         </div>

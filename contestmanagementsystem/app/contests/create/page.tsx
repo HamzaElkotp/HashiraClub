@@ -58,21 +58,6 @@ export default function CreateContestPage() {
   }, [form.publishDate, form.registrationEndDate, form.period.value, form.period.unit, form.startDateTime]);
 
 
-  const handleContestCreationSubmit = async (form: any) => {
-    const res = await fetch('/api/contests', {
-      method: 'POST',
-      body: JSON.stringify(form),
-      headers: { 'Content-Type': 'application/json' },
-    });
-
-    if (res.ok) {
-      alert('Contest Created successfully!');
-      router.push('/contests');
-    } else {
-      alert('Submission failed.');
-    }
-  };
-
   const handleMultiSelect = (e: any) => {
       const selected = Array.from(e.target.selectedOptions, (opt: any) => opt.value);
       setForm(prev => ({ ...prev, regions: selected }));
@@ -115,15 +100,6 @@ export default function CreateContestPage() {
   // Sponsors Info
   const [sponsors, setSponsors] = useState<any>([]);
   const [selectedSponsors, setSelectedSponsors] = useState<string[]>([]);
-  // const [showAddSponsor, setShowAddSponsor] = useState(false);
-  // const [newSponsor, setNewSponsor] = useState({
-  //   companyName: '',
-  //   description: '',
-  //   facebook: '',
-  //   twitter: '',
-  //   website: '',
-  //   logo: null,
-  // });
 
   const loadSponsors = async () => {
     try {
@@ -156,36 +132,10 @@ export default function CreateContestPage() {
     );
   };
 
-  // const handleNewSponsorChange = (e: any) => {
-  //   const { name, value } = e.target;
-  //   setNewSponsor(prev => ({ ...prev, [name]: value }));
-  // };
-
-  // const submitNewSponsor = async () => {
-  //   const res = await fetch('/api/sponsors', {
-  //     method: 'POST',
-  //     body: JSON.stringify(newSponsor),
-  //     headers: { 'Content-Type': 'application/json' },
-  //   });
-  //   if (res.ok) {
-  //     setShowAddSponsor(false);
-  //     setNewSponsor({ companyName: '', description: '', facebook: '', twitter: '', website: '', logo: null });
-  //     const newList = await fetch('/api/sponsors').then(r => r.json());
-  //     setSponsors(newList);
-  //   }
-  // };
-
 
   // Association Info
   const [associations, setAssociations] = useState([Object]);
   const [selectedAssociations, setSelectedAssociations] = useState<string[]>([]);
-  // const [showAddAssociation, setShowAddAssociation] = useState(false);
-  // const [newAssociation, setNewAssociation] = useState({
-  //   name: '',
-  //   description: '',
-  //   website: '',
-  //   logo: null,
-  // });
 
   const loadAssociations = async () => {
     try {
@@ -219,25 +169,24 @@ export default function CreateContestPage() {
     );
   };
 
-  // const handleNewAssociationChange = (e: any) => {
-  //   const { name, value } = e.target;
-  //   setNewAssociation(prev => ({ ...prev, [name]: value }));
-  // };
+  const handleContestCreationSubmit = async (form:ContestForm) => {
+      const res = await fetch('/api/contests', {
+        method: 'POST',
+        body: JSON.stringify({
+          ...form,
+          selectedAssociations,
+          selectedSponsors
+        }),
+        headers: { 'Content-Type': 'application/json' },
+      });
 
-  // const submitNewAssociation = async () => {
-  //   const res = await fetch('/api/Associations', {
-  //     method: 'POST',
-  //     body: JSON.stringify(newAssociation),
-  //     headers: { 'Content-Type': 'application/json' },
-  //   });
-  //   if (res.ok) {
-  //     setShowAddAssociation(false);
-  //     setNewAssociation({ name: '', description: '', website: '', logo: null });
-  //     const newList = await fetch('/api/Associations').then(r => r.json());
-  //     setAssociations(newList);
-  //   }
-  // };
-
+      if (res.ok) {
+        alert('Contest Created successfully!');
+        router.push('/contests');
+      } else {
+        alert('Submission failed.');
+      }
+  };
 
   useEffect(() => {
     if (step === 3) {
@@ -262,106 +211,7 @@ export default function CreateContestPage() {
 
           {step === 3 && <ContestSponsors form={form} setForm={setForm} setStep={setStep} currentStep={step} toggleSponsor={toggleSponsor} sponsors={sponsors} selectedSponsors={selectedSponsors} />}
 
-          {/* {showAddSponsor && (
-            <div className="modal is-active">
-              <div className="modal-background" onClick={() => setShowAddSponsor(false)}></div>
-              <div className="modal-card">
-                <header className="modal-card-head">
-                  <p className="modal-card-title">Add New Sponsor</p>
-                  <button className="delete" aria-label="close" onClick={() => setShowAddSponsor(false)}></button>
-                </header>
-                <section className="modal-card-body">
-                  <div className="field">
-                    <label className="label">Company Name</label>
-                    <input className="input" name="companyName" value={newSponsor.companyName} onChange={handleNewSponsorChange} />
-                  </div>
-                  <div className="field">
-                    <label className="label">Description</label>
-                    <input className="input" name="description" value={newSponsor.description} onChange={handleNewSponsorChange} />
-                  </div>
-                  <div className="field">
-                    <label className="label">Logo</label>
-                    <input
-                      className="input"
-                      type="text"
-                      placeholder="Enter sponsor logo URL"
-                      value={newSponsor.logo || ''}
-                      onChange={(e) => setNewSponsor((prev) => ({ ...prev, logo: e.target.value }))}
-                    />
-                  </div>
-                  <div className="field">
-                    <label className="label">Facebook</label>
-                    <input className="input" name="facebook" value={newSponsor.facebook} onChange={handleNewSponsorChange} />
-                  </div>
-                  <div className="field">
-                    <label className="label">Twitter</label>
-                    <input className="input" name="twitter" value={newSponsor.twitter} onChange={handleNewSponsorChange} />
-                  </div>
-                  <div className="field">
-                    <label className="label">Website</label>
-                    <input className="input" name="website" value={newSponsor.website} onChange={handleNewSponsorChange} />
-                  </div>
-                </section>
-                <footer className="modal-card-foot">
-                  <button className="button is-success" onClick={submitNewSponsor}>Save</button>
-                  <button className="button" onClick={() => setShowAddSponsor(false)}>Cancel</button>
-                </footer>
-              </div>
-            </div>
-          )} */}
-
           {step === 4 && <ContestCompetingAssociations form={form} setForm={setForm} setStep={setStep} currentStep={step} Associations={associations} selectedAssociations={selectedAssociations} toggleAssociation={toggleAssociation} />}
-
-          {/* {showAddAssociation && (
-            <div className="modal is-active">
-              <div className="modal-background" onClick={() => setShowAddAssociation(false)}></div>
-              <div className="modal-card">
-                <header className="modal-card-head">
-                  <p className="modal-card-title">Add New Association</p>
-                  <button className="delete" aria-label="close" onClick={() => setShowAddAssociation(false)}></button>
-                </header>
-                <section className="modal-card-body">
-                  <div className="field">
-                    <label className="label">Name</label>
-                    <div className="control">
-                      <input className="input" name="name" value={newAssociation.name} onChange={handleNewAssociationChange} />
-                    </div>
-                  </div>
-
-                  <div className="field">
-                    <label className="label">Description</label>
-                    <div className="control">
-                      <input className="input" name="description" value={newAssociation.description} onChange={handleNewAssociationChange} />
-                    </div>
-                  </div>
-
-                  <div className="field">
-                    <label className="label">Website</label>
-                    <div className="control">
-                      <input className="input" name="website" value={newAssociation.website} onChange={handleNewAssociationChange} />
-                    </div>
-                  </div>
-
-                  <div className="field">
-                    <label className="label">Logo</label>
-                    <div className="control">
-                      <input
-                        className="input"
-                        type="text"
-                        placeholder="Enter association logo URL"
-                        value={newAssociation.logo || ''}
-                        onChange={(e) => setNewAssociation((prev) => ({ ...prev, logo: e.target.value }))}
-                      />
-                    </div>
-                  </div>
-                </section>
-                <footer className="modal-card-foot">
-                  <button className="button is-success" onClick={submitNewAssociation}>Save</button>
-                  <button className="button" onClick={() => setShowAddAssociation(false)}>Cancel</button>
-                </footer>
-              </div>
-            </div>
-          )} */}
 
           {step === 5 && <ContestOrganizingMode form={form} setForm={setForm} setStep={setStep} currentStep={step} />}
 

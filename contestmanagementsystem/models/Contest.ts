@@ -16,6 +16,18 @@ const ContestSchema = new Schema({
   isOnline: { type: Boolean, required: true },
   regions: [{ type: String }],
   category: { type: String, required: true },
+  selectedAssociations: {
+    type: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Associations'
+    }]
+  },
+  selectedSponsors: {
+    type: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Sponsors'
+    }]
+  },
   organizingPlace: { type: String, enum: ['inside', 'outside'], required: true },
   externalLink: String,
   externalMessage: String,
