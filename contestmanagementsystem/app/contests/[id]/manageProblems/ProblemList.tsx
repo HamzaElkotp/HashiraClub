@@ -75,7 +75,8 @@ export default function ProblemList({ contestId, questionType }: { contestId: st
             setEditingQuestion(null);
           }}
           onSuccess={() => {
-            fetchQuestions();
+            // fetchQuestions();
+            location.reload()
           }}
         />
       )}
@@ -87,7 +88,8 @@ export default function ProblemList({ contestId, questionType }: { contestId: st
             setEditingQuestion(null);
           }}
           onSuccess={() => {
-            fetchQuestions();
+            // fetchQuestions();
+            location.reload()
           }}
         />
       )}
