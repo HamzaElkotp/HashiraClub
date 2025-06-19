@@ -15,7 +15,10 @@ const ContestSchema = new Schema({
   maxContestants: { type: Number, required: true },
   isOnline: { type: Boolean, required: true },
   regions: [{ type: String }],
-  category: { type: String, required: true },
+  category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ContestCategories'
+  },
   associations: {
     type: [{
         type: mongoose.Schema.Types.ObjectId,

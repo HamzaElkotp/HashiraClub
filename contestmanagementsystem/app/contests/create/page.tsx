@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { defaultContest, allRegions, categories } from '@/constants/contest';
+import { defaultContest, allRegions } from '@/constants/contest';
 import { 
   ContestTakePlace, 
   ContestInfo, 
@@ -187,7 +187,40 @@ export default function CreateContestPage() {
       }
   };
 
+  const [categories, setCategories] = useState<any>([]);
+
+  const loadContestCategories = async () => {
+    try {
+      const res = await fetch('/api/contests/categories');
+
+      if (!res.ok) {
+        alert(`Failed to fetch Contest categories. Status: ${res.status}`);
+        console.error('Failed to fetch Contest categories. Status:', res.status);
+        setCategories([]); // fallback
+        return;
+      }
+
+      const data = await res.json();
+
+      if (!Array.isArray(data)) {
+        alert(`Invalid Contest categories data format: ${data}`);
+        console.error('Invalid Contest categories data format:', data);
+        setCategories([]);
+        return;
+      }
+
+      setCategories(data);
+    } catch (err) {
+      console.error('Error fetching Contest categories:', err);
+      setCategories([]);
+    }
+  };
+
   useEffect(() => {
+    if (step === 1) {
+      loadContestCategories();
+    }
+
     if (step === 3) {
       loadSponsors();
     }

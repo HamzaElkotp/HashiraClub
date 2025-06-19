@@ -30,7 +30,7 @@ const defaultContest = {
 };
 
 const allRegions = ['Global', 'MENA', 'Africa', 'Gulf Countries', 'Arab', 'Egypt', 'Saudi Arabia'];
-const categories = ['Math', 'Science', 'Coding', 'Design'];
+// const categories = ['Math', 'Science', 'Coding', 'Design'];
 
 // const defaultContest = {
 //   name: 'Global Code Championship 2025',
@@ -65,5 +65,5 @@ const categories = ['Math', 'Science', 'Coding', 'Design'];
 export {
   defaultContest,
   allRegions,
-  categories
+  // categories
 }

@@ -101,7 +101,7 @@ function ContestTakePlace({ form, setForm, setStep, currentStep, handleMultiSele
             <div className="select is-fullwidth">
                 <select name="category" value={form.category} onChange={handleChange(setForm)} required>
                 <option value="">-- Select Category --</option>
-                {Categories.map((cat:any) => <option key={cat} value={cat}>{cat}</option>)}
+                {Categories.map((cat:any) => <option key={cat._id} value={cat._id}>{cat.name}</option>)}
                 </select>
             </div>
         </div>
