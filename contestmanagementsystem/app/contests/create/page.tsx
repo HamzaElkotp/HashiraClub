@@ -16,7 +16,6 @@ import {
 } from '@/components/CreateContestSteps';
 
 import type { ContestForm } from '@/types/contest';
-import { validateContestStep } from '@/lib/contestCreationUtils';
 
 export default function CreateContestPage() {
   const router = useRouter();
