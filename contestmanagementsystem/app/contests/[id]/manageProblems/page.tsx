@@ -60,10 +60,10 @@ export default function ManageProblemsPage() {
       )}
       
       {showModal && contest?.questionType === 'mcq' && (
-        <McqEditor onClose={() => setShowModal(false)} contestId={id} />
+        <McqEditor onClose={() => setShowModal(false)} contestId={id} onSuccess={()=>{}} />
       )}
       {showModal && contest?.questionType === 'file' && (
-        <FileConfigEditor onClose={() => setShowModal(false)} contestId={id} />
+        <FileConfigEditor onClose={() => setShowModal(false)} contestId={id} onSuccess={()=>{}} />
       )}
       {/* {showModal && contest?.questionType === 'form' && (
         <FormBuilder onClose={() => setShowModal(false)} />
