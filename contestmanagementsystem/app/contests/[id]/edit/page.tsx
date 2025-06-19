@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { defaultContest, allRegions, categories } from '@/constants/contest';
+import { defaultContest, allRegions } from '@/constants/contest';
 import {
   ContestInfo,
   ContestTakePlace,
@@ -78,9 +78,43 @@ export default function EditContestPage() {
     setDurationInfo(`${hours} hours, ends on ${end.toLocaleDateString()}, ${end.toLocaleTimeString()}`);
   }, [form.publishDate, form.registrationEndDate, form.period.value, form.period.unit, form.startDateTime]);
 
+  const [categories, setCategories] = useState<any>([]);
+
+  const loadContestCategories = async () => {
+    try {
+      const res = await fetch('/api/contests/categories');
+
+      if (!res.ok) {
+        alert(`Failed to fetch Contest categories. Status: ${res.status}`);
+        console.error('Failed to fetch Contest categories. Status:', res.status);
+        setCategories([]); // fallback
+        return;
+      }
+
+      const data = await res.json();
+
+      if (!Array.isArray(data)) {
+        alert(`Invalid Contest categories data format: ${data}`);
+        console.error('Invalid Contest categories data format:', data);
+        setCategories([]);
+        return;
+      }
+
+      setCategories(data);
+    } catch (err) {
+      console.error('Error fetching Contest categories:', err);
+      setCategories([]);
+    }
+  };
+
+
 
   // Load sponsors/orgs once when needed
   useEffect(() => {
+    if (step === 1) {
+      loadContestCategories();
+    }
+
     if (step === 3) {
       fetch('/api/sponsors')
         .then((res) => res.json())
