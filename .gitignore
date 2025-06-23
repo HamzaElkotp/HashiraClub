@@ -1,0 +1,65 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+contestmanagementsystem/node_modules
+contestmanagementsystem/.pnp
+contestmanagementsystem/.pnp.*
+contestmanagementsystem/.yarn/*
+contestmanagementsystem/!.yarn/patches
+contestmanagementsystem/!.yarn/plugins
+contestmanagementsystem/!.yarn/releases
+contestmanagementsystem/!.yarn/versions
+
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+contestmanagementsystem/coverage
+/coverage
+
+
+# next.js
+contestmanagementsystem/.next/
+contestmanagementsystem/out/
+/.next/
+/out/
+
+# production
+contestmanagementsystem/build
+/build
+
+# misc
+contestmanagementsystem/.DS_Store
+contestmanagementsystem/*.pem
+.DS_Store
+*.pem
+
+# debug
+contestmanagementsystem/npm-debug.log*
+contestmanagementsystem/yarn-debug.log*
+contestmanagementsystem/yarn-error.log*
+contestmanagementsystem/.pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+contestmanagementsystem/.env*
+.env*
+
+# vercel
+contestmanagementsystem/.vercel
+.vercel
+
+# typescript
+contestmanagementsystem/*.tsbuildinfo
+contestmanagementsystem/next-env.d.ts
+*.tsbuildinfo
+next-env.d.ts
