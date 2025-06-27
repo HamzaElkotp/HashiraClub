@@ -1,34 +1,26 @@
-import { Geist, Geist_Mono } from "next/font/google";
-import "./Style/globals.css";
-import ThemeSwitcher from "@/components/ThemeSwitcher";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import "./Style/client-globals.css";
+import { Inter } from 'next/font/google';
+import { Providers } from './providers'; // react-query provider
+import { ThemeProvider } from '@/components/theme-provider'; // shadcn theme
+import SEO from '../constants/next-seo.config';
+import { NextSeo } from 'next-seo';
 
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const inter = Inter({ subsets: ['latin'] });
+
+
+export default function RootLayout({children,}: {children: React.ReactNode;}) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <nav className="navbar">
-          <div className="navbar-end p-2">
-            <ThemeSwitcher />
-          </div>
-        </nav>
-        <main>
-          {children}
-        </main>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <NextSeo {...SEO}/>
+      </head>
+      <body className={inter.className}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Providers>
+            {children}
+          </Providers>
+        </ThemeProvider>
       </body>
     </html>
   );
