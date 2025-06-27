@@ -1,0 +1,80 @@
+.hero-video-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.shadow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 1000px 1000px 1000px 1000px rgba(0,0,0,0.45);
+    top: 0;
+    left: 0;
+}
+
+.mute-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  z-index: 2;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.timer-glitch {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Courier New', monospace;
+  font-size: clamp(3rem, 15vw, 8rem);
+  font-weight: 600;
+  color: #00d590;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+  line-height: 1;
+  pointer-events: none;
+  z-index: 2;
+  display: flex;
+}
+
+.timer-glitch span {
+  position: relative;
+  display: inline-block;
+  animation: glitch 1s infinite;
+}
+
+@keyframes glitch {
+  0% { clip: rect(2px, 9999px, 44px, 0); transform: translate(0,0); }
+  10% { clip: rect(12px, 9999px, 55px, 0); transform: translate(-2px,-2px); color: #ff0056; }
+  20% { clip: rect(22px, 9999px, 66px, 0); transform: translate(2px,2px); color: #00d590; }
+  30% { clip: rect(32px, 9999px, 77px, 0); transform: translate(-2px,2px); }
+  40% { clip: rect(12px, 9999px, 88px, 0); transform: translate(2px,-2px); }
+  50% { clip: rect(52px, 9999px, 99px, 0); transform: translate(-2px,0); }
+  60% { clip: rect(22px, 9999px, 44px, 0); transform: translate(2px,2px); color: #ff0056; }
+  70% { clip: rect(32px, 9999px, 55px, 0); transform: translate(-2px,-2px); }
+  80% { clip: rect(12px, 9999px, 66px, 0); transform: translate(2px,0); }
+  90% { clip: rect(22px, 9999px, 77px, 0); transform: translate(-2px,2px); color: #00d590; }
+  100% { clip: rect(2px, 9999px, 88px, 0); transform: translate(0,0); }
+}
+
+/* Prevent text selection */
+.timer-glitch,
+.timer-glitch span {
+  user-select: none;
+}
