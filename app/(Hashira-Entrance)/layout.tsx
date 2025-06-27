@@ -1,6 +1,8 @@
+'use client';
 import { Geist, Geist_Mono } from "next/font/google";
 import "../Style/hashira-globals.css";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
+import { useState, useEffect } from 'react';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,13 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-
-export const metadata = {
-  title: 'FCI Hashira Club',
-  description: 'Your Description',
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function HashiraEntranceLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
