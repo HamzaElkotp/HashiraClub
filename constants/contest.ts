@@ -1,5 +1,6 @@
 const defaultContest = {
   name: '',
+  content: '',
   description: '',
   banner: '',
   image: '',

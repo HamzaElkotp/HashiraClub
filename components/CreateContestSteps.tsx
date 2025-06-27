@@ -17,14 +17,20 @@ function ContestInfo({ form, setForm, setStep, currentStep }: any) {
       </div>
 
       <div className="field">
-          <label className="label">Description (Markdown) *</label>
+          <label className="label">Description *</label>
             <textarea
-            rows={5}
-            className="textarea" name="description" value={form.description} onChange={handleChange(setForm)} required
-            />
+            rows={5} className="textarea" name="description" 
+            value={form.description} onChange={handleChange(setForm)} required/>
+      </div>
+
+      <div className="field">
+          <label className="label">Content (Markdown) *</label>
+            <textarea
+            rows={5} className="textarea" name="content" 
+            value={form.content} onChange={handleChange(setForm)} required/>
             <p className="help mt-2"><strong>Preview:</strong></p>
             <div className="content box" style={{ minHeight: '100px' }}>
-                <ReactMarkdown>{form.description}</ReactMarkdown>
+                <ReactMarkdown>{form.content}</ReactMarkdown>
             </div>
       </div>
 

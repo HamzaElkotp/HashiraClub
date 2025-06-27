@@ -80,22 +80,7 @@ export default function CreateContestPage() {
     period: { ...f.period, value: Math.max(1, f.period.value - 1) },
   }));
 
-  // const handleSubmit = async () => {
-  //   const body = { ...form, step: 0 };
-  //   const res = await fetch('/api/contests', {
-  //     method: 'POST',
-  //     body: JSON.stringify(body),
-  //     headers: { 'Content-Type': 'application/json' },
-  //   });
-  //   if (res.ok) {
-  //     const saved = await res.json();
-  //     setContestId(saved._id);
-  //     setStep(1);
-  //   }
-  // };
-
-
-
+  
   // Sponsors Info
   const [sponsors, setSponsors] = useState<any>([]);
   const [selectedSponsors, setSelectedSponsors] = useState<string[]>([]);
