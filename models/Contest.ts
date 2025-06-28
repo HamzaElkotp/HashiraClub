@@ -10,10 +10,10 @@ const ContestSchema = new Schema({
   registrationEndDate: { type: Date },
   startDateTime: { type: Date, required: true },
   period: {
-    value: { type: Number, required: true },
+    value: { type: Number, required: true, min: 1 },
     unit: { type: String, required: true },
   },
-  maxContestants: { type: Number, required: true },
+  maxContestants: { type: Number, required: true, min: 1 },
   isOnline: { type: Boolean, required: true },
   regions: [{ type: String }],
   category: {
@@ -45,6 +45,11 @@ const ContestSchema = new Schema({
   resultPublishing: String,
   standingStyle: String,
   questionType: String,
+  registers: {
+    type: Number,
+    default: 0,
+    min: 0,
+  },
 }, { timestamps: true });
 
 export default mongoose.models.Contest || mongoose.model('Contest', ContestSchema);

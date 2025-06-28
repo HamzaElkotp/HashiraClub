@@ -28,6 +28,7 @@ const defaultContest = {
   resultPublishing: '',
   standingStyle: '',
   questionType: '',
+  registers: 0
 };
 
 const allRegions = ['Global', 'MENA', 'Africa', 'Gulf Countries', 'Arab', 'Egypt', 'Saudi Arabia'];

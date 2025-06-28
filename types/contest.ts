@@ -28,4 +28,5 @@ export type ContestForm = {
   resultPublishing: string;
   standingStyle: string;
   questionType: string;
+  registers: Number;
 };
