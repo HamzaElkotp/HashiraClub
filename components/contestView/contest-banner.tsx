@@ -16,6 +16,21 @@ import { Skeleton } from '@/components/ui/skeleton';
 export default function ContestBanner({ contest }: { contest: any}) {
   const [timeLeft, setTimeLeft] = useState('');
   const [status, setStatus] = useState<'registering' | 'waiting' | 'running' | 'finished' | ''>('');
+  const [category, setCategory] = useState<any>();
+    
+  useEffect(() => {
+    const fetchCategory = async () => {
+      const res = await fetch(`/api/contests/categories/${contest.category}`);
+      if (res.ok) {
+        const data = await res.json();
+        setCategory(data);
+        console.log(data);
+      }
+    };
+    fetchCategory();
+  }, [contest?.category]);
+
+
 
   useEffect(() => {
     type PeriodUnit = 'halfHours' | 'days' | 'weeks';
@@ -54,18 +69,21 @@ export default function ContestBanner({ contest }: { contest: any}) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center w-full">
       <div className="col-span-6 space-y-3">
-        <div className="flex items-center space-x-2 text-muted-foreground text-sm">
+        <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-300 text-sm">
           <Users2 className="w-4 h-4" />
           {contest?.registers>=0 ? <span>{contest.registers} Competitors</span> : <Skeleton className="h-4 w-28" />}
         </div>
 
         <Status status={status} timeLeft={timeLeft} registrationEndDate={contest.registrationEndDate} startDate={contest.startDate} endDate={contest.endDate}/>
 
-        <h1 className="text-4xl font-extrabold text-foreground">
+        <h2 className="text-base text-gray-600 dark:text-gray-400 font-medium text-foreground my-1 underline">
+          {category?.name ? <a href=''>{category.name}</a> : <Skeleton className="h-5 w-1/3" />}
+        </h2>
+        <h1 className=" text-gray-800 dark:text-gray-200 text-4xl font-extrabold text-foreground">
           {contest?.name ? contest.name : <Skeleton className="h-12 w-4/5" />}
         </h1>
 
-        <div className="text-muted-foreground whitespace-pre-line text-base">
+        <div className="text-gray-700 dark:text-gray-300 whitespace-pre-line text-base">
           {contest?.description ? contest.description : <Skeleton className="h-60 w-1/1" />}
         </div>
 

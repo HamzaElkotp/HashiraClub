@@ -13,3 +13,9 @@ export async function PUT(req: Request, { params }: any ) {
   const updated = await ContestCategory.findByIdAndUpdate( params.id, data, { new: true });
   return new Response(JSON.stringify(updated), { status: 200 });
 }
+
+export async function GET(req: Request, { params }: any ) {
+  await connectToDatabase();
+    const category = await ContestCategory.findById(params.id);
+    return new Response(JSON.stringify(category), { status: 200 });
+}

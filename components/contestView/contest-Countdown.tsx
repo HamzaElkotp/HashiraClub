@@ -70,14 +70,14 @@ export default function ContestCountdown({ contest }: { contest: any }) {
 
         {/* Content Layer */}
         <div className="relative z-10">
-            <div className={'font-bold mb-6'}>
+            <div className={'font-bold mb-6 text-gray-800 dark:text-gray-300'}>
                 {status === 'registering' && (
                     <p className='text-4xl'>Registration is Open ⚔️</p>
                 )}
                 {status === 'waiting' && (
                     <p className='flex flex-col gap-2'>
-                    <span className='text-4xl'>Get Ready! ⚔️</span>
-                    <span className='text-lg'>Contest will Start Soon 🔥</span>
+                        <span className='text-4xl'>Get Ready! ⚔️</span>
+                        <span className='text-lg'>Contest will Start Soon 🔥</span>
                     </p>
                 )}
                 {status === 'running' && (
@@ -97,10 +97,10 @@ export default function ContestCountdown({ contest }: { contest: any }) {
                     { label: 'Seconds', value: String(secs).padStart(2, '0') },
                 ].map((item) => (
                     <div key={item.label} className="flex flex-col items-center">
-                        <div className="text-muted-foreground font-medium uppercase text-xs tracking-wider mb-2">
+                        <div className="text-gray-700 dark:text-gray-400 font-medium uppercase text-xs tracking-wider mb-2">
                             {item.label}
                         </div>
-                        <div className="text-5xl md:text-7xl font-bold font-mono text-foreground">
+                        <div className=" text-gray-800 dark:text-gray-300 text-5xl md:text-7xl font-bold font-mono text-foreground">
                             {loadedTime ? item.value : <Skeleton className="w-20 h-18 mx-auto" />}
                         </div>
                     </div>
