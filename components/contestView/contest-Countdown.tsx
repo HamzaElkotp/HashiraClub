@@ -57,7 +57,7 @@ export default function ContestCountdown({ contest }: { contest: any }) {
   const { days, hours, minutes, secs } = formatTime(timeLeft);
 
   return (
-        <div className="relative w-full text-center flex flex-col items-center justify-center gap-6 mt-20 border border-white/20 rounded-xl p-8 overflow-hidden">
+    <div className="relative w-full text-center flex flex-col items-center justify-center gap-6 mt-10 border border-white/20 rounded-xl p-8 overflow-hidden" id='contest-timer'>
         <div
             className="absolute inset-0 opacity-40"
             style={{

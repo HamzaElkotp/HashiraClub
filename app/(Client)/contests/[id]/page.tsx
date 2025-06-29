@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import {ContestForm} from '@/types/contest'
 import ContestCountdown from '@/components/contestView/contest-Countdown';
+import Scroll from '@/components/contestView/banner/scroll';
 
 export default function ContestPage() {
   const params = useParams<{ id: string }>();
@@ -28,6 +29,7 @@ export default function ContestPage() {
       {1==1 ? (
         <>
           <ContestBanner contest={contestData || {}} />
+          <Scroll id={"contest-timer"}/>
           <ContestCountdown contest={contestData || {}} />
         </>
       ) : (
