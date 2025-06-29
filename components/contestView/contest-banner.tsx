@@ -1,3 +1,4 @@
+'use client';
 import AddToCalendar from '@/components/contestView/banner/addToCalendar';
 import ShareContest from '@/components/contestView/banner/shareContest';
 import ActionButton from '@/components/contestView/banner/actionButton';
@@ -48,7 +49,7 @@ export default function ContestBanner({ contest }: { contest: any}) {
     }
   }, [contest]);
 
-  let userIsRegistered = true;
+  const userIsRegistered = true;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center w-full">

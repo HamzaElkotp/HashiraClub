@@ -5,7 +5,7 @@ import { HiPencilAlt } from "react-icons/hi";
 import { FaLongArrowAltRight } from 'react-icons/fa';
 
 
-export default function ActionButton({status, userIsRegistered}:{status:string, userIsRegistered:Boolean}){
+export default function ActionButton({status, userIsRegistered}:{status:string, userIsRegistered:boolean}){
     return (
         <Button className="bg-[#00d590] text-black hover:bg-[#00c185] px-4 py-3 text-lg h-12">
             <span className='flex items-center space-x-2'>

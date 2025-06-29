@@ -4,6 +4,7 @@ import ContestBanner from '@/components/contestView/contest-banner';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import {ContestForm} from '@/types/contest'
+import ContestCountdown from '@/components/contestView/contest-Countdown';
 
 export default function ContestPage() {
   const params = useParams<{ id: string }>();
@@ -25,11 +26,13 @@ export default function ContestPage() {
   return (
     <AppShell>
       {1==1 ? (
-        <ContestBanner contest={contestData || {}} />
+        <>
+          <ContestBanner contest={contestData || {}} />
+          <ContestCountdown contest={contestData || {}} />
+        </>
       ) : (
         <div className="p-6 text-center text-muted-foreground">Loading...</div>
       )}
-      {/* Next sections will go here */}
     </AppShell>
   );
 }
