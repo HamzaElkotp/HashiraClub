@@ -100,7 +100,7 @@ export default function ContestCountdown({ contest }: { contest: any }) {
                         <div className="text-gray-700 dark:text-gray-400 font-medium uppercase text-xs tracking-wider mb-2">
                             {item.label}
                         </div>
-                        <div className=" text-gray-800 dark:text-gray-300 text-5xl md:text-7xl font-bold font-mono text-foreground">
+                        <div className="text-gray-800 dark:text-gray-300 text-5xl md:text-7xl font-bold font-mono">
                             {loadedTime ? item.value : <Skeleton className="w-20 h-18 mx-auto" />}
                         </div>
                     </div>

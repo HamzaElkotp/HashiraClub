@@ -76,10 +76,10 @@ export default function ContestBanner({ contest }: { contest: any}) {
 
         <Status status={status} timeLeft={timeLeft} registrationEndDate={contest.registrationEndDate} startDate={contest.startDate} endDate={contest.endDate}/>
 
-        <h2 className="text-base text-gray-600 dark:text-gray-400 font-medium text-foreground my-1 underline">
+        <h2 className="text-base text-gray-600 dark:text-gray-400 font-medium my-1 underline">
           {category?.name ? <a href=''>{category.name}</a> : <Skeleton className="h-5 w-1/3" />}
         </h2>
-        <h1 className=" text-gray-800 dark:text-gray-200 text-4xl font-extrabold text-foreground">
+        <h1 className="text-gray-800 dark:text-gray-200 text-4xl font-extrabold">
           {contest?.name ? contest.name : <Skeleton className="h-12 w-4/5" />}
         </h1>
 
