@@ -1,19 +1,16 @@
-import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
+import AddToCalendar from '@/components/contestView/banner/addToCalendar';
+import ShareContest from '@/components/contestView/banner/shareContest';
+import ActionButton from '@/components/contestView/banner/actionButton';
+import Status from '@/components/contestView/banner/status';
 
-import { Users2, CalendarIcon, Clock, Flame, DoorClosedLocked, Trophy, Copy } from 'lucide-react';
-import { FaDiscord, FaLongArrowAltRight, FaYoutube } from 'react-icons/fa';
+import { Users2 } from 'lucide-react';
+import { FaDiscord, FaYoutube } from 'react-icons/fa';
 import { TbBrandLinktree } from "react-icons/tb";
 import { useEffect, useState } from 'react';
-import { FaRankingStar } from "react-icons/fa6";
-import { GiPointySword, GiSwordSlice } from "react-icons/gi";
-import { HiPencilAlt } from "react-icons/hi";
-import { IoIosCheckmarkCircle } from "react-icons/io";
-import { RiShareForwardLine } from "react-icons/ri";
 
 import { formatDistanceStrict, isBefore, isAfter } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
-import { generateGoogleCalendarLink } from './addToGoogleCalendar';
+
 
 export default function ContestBanner({ contest }: { contest: any}) {
   const [timeLeft, setTimeLeft] = useState('');
@@ -61,38 +58,7 @@ export default function ContestBanner({ contest }: { contest: any}) {
           {contest?.registers>=0 ? <span>{contest.registers} Competitors</span> : <Skeleton className="h-4 w-28" />}
         </div>
 
-        <div>
-          {status === 'registering' && (
-            <p className="text-[#ff0056] font-medium">
-              Registration is open until {new Date(contest?.registrationEndDate).toLocaleString()}
-              <span className="flex items-center space-x-2 text-s text-gray-500">
-                <Clock className="w-4 h-4" /> <span>{timeLeft} left for registration to close</span>
-              </span>
-            </p>
-          )}
-          {status === 'waiting' && (
-            <p className="text-yellow-600 font-medium">
-              Registration is closed. Contest starts at {new Date(contest?.startDate).toLocaleString()}
-              <span className="flex items-center space-x-2 text-s text-gray-500">
-                <DoorClosedLocked className="w-4 h-4" /> <span>{timeLeft} left for contest to start</span>
-              </span>
-            </p>
-          )}
-          {status === 'running' && (
-            <p className="text-[#00d590] font-medium">
-              Contest is running. Ends at {new Date(contest?.endDate).toLocaleString()}
-              <span className="flex items-center space-x-2 text-s text-gray-500">
-                <Flame className="w-4 h-4" /> <span>{timeLeft} left for contest to finish</span>
-              </span>
-            </p>
-          )}
-          {status === 'finished' && (
-            <p className="flex items-center space-x-2 text-gray-600 font-medium">
-              <Trophy className="w-4 h-4" /> <span>This contest has finished.</span>
-            </p>
-          )}
-          {status === '' && <Skeleton className="h-10 w-2/3" />}
-        </div>
+        <Status status={status} timeLeft={timeLeft} registrationEndDate={contest.registrationEndDate} startDate={contest.startDate} endDate={contest.endDate}/>
 
         <h1 className="text-4xl font-extrabold text-foreground">
           {contest?.name ? contest.name : <Skeleton className="h-12 w-4/5" />}
@@ -108,73 +74,11 @@ export default function ContestBanner({ contest }: { contest: any}) {
                 <Skeleton className="h-13 w-2/5" />
               </>
           )}
-          {status !== '' && (
-              <Button className="bg-[#00d590] text-black hover:bg-[#00c185] px-4 py-3 text-lg h-12">
-                <span className='flex items-center space-x-2'>
-                  {status === 'registering' && (
-                      <>
-                        <span>Join The Competition</span>
-                      </>
-                  )}
-                  {status === 'waiting' && userIsRegistered && (
-                      <>
-                        <HiPencilAlt /> <span>Complete Registeration</span>
-                      </>
-                  )}
-                  {status === 'waiting' && !userIsRegistered && (
-                      <>
-                        <GiPointySword /> <span>View The Arena</span>
-                      </>
-                  )}
-                  {status === 'running' && userIsRegistered && (
-                      <>
-                        <GiSwordSlice /> <span>Enter The Arena</span>
-                      </>
-                  )}
-                  {status === 'running' && !userIsRegistered && (
-                      <>
-                        <GiPointySword /> <span>Watch The Contest</span>
-                      </>
-                  )}
-                  {status === 'finished' && (
-                      <>
-                        <FaRankingStar /> <span>See Resutls</span>
-                      </>
-                  )}
-                  <FaLongArrowAltRight />
-                </span>
-              </Button>
-          )}
-          <Button variant="outline" size="icon" className='px-6 py-5 h-12'onClick={() => {
-            if (!contest) return;
-            const url = generateGoogleCalendarLink({
-              name: contest.name,
-              description: `💥Join us⚔️!
-🔗 Event link: ${window.location.href}
-📺 Youtube channel: https://www.youtube.com/@fcihashira
-☎️ Discord: https://www.discord.gg/thBtZumR4k`,
-              startDateTime: contest.startDateTime,
-              period: contest.period,
-              isOnline: contest.isOnline
-            });
-            window.open(url, '_blank');
-          }}>
-            <CalendarIcon className="text-lg" />
-          </Button>
+          {status !== '' && <ActionButton status={status} userIsRegistered={userIsRegistered}/>}
 
-          <Button className="px-6 py-5 h-12" size="icon"
-            onClick={() => {
-              navigator.clipboard.writeText(window.location.href);
-              toast.success('Contest Link is Copied!', {
-                className: 'my-classname',
-                description: 'Contest URL is now in your clipboard. Share it with your firends, or you fear of competing them 😉',
-                duration: 3000,
-                icon: <IoIosCheckmarkCircle className='text-2xl text-[#00ac76]' />
-              });
-            }}
-          >
-              <Copy className="w-4 h-4" />
-          </Button>
+          <AddToCalendar contest={contest} />
+
+          <ShareContest/>
         </div>
 
         <div className="flex items-center gap-4 text-muted-foreground">
