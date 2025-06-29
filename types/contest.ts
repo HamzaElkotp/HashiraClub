@@ -30,3 +30,15 @@ export type ContestForm = {
   questionType: string;
   registers: Number;
 };
+
+
+export type googleCalendar = {
+  name: string;
+  description: string;
+  startDateTime: Date;
+  period: {
+    value: number;
+    unit: string;
+  };
+  isOnline: Boolean;
+}

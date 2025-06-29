@@ -13,6 +13,7 @@ import { RiShareForwardLine } from "react-icons/ri";
 
 import { formatDistanceStrict, isBefore, isAfter } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
+import { generateGoogleCalendarLink } from './addToGoogleCalendar';
 
 export default function ContestBanner({ contest }: { contest: any}) {
   const [timeLeft, setTimeLeft] = useState('');
@@ -32,22 +33,22 @@ export default function ContestBanner({ contest }: { contest: any}) {
     const start = new Date(contest?.startDateTime);
     const end = new Date(start.getTime() + durationInHours * 3600 * 1000);
 
-    // if (isBefore(now, regEnd)) {
+    if (isBefore(now, regEnd)) {
       setStatus('registering');
-    //   setTimeLeft(formatDistanceStrict(now, regEnd));
-    // } else if (isBefore(now, start)) {
-      // setStatus('waiting');
-    //   setTimeLeft(formatDistanceStrict(now, start));
-    // } else if (isBefore(now, end)) {
-      // setStatus('running');
-    //   setTimeLeft(formatDistanceStrict(now, end));
-    // } else if(isBefore(end, now)){
-    //   setStatus('finished');
-    //   setTimeLeft('');
-    // } else{
-    //     setStatus('');
-    //     setTimeLeft('');
-    // }
+      setTimeLeft(formatDistanceStrict(now, regEnd));
+    } else if (isBefore(now, start)) {
+      setStatus('waiting');
+      setTimeLeft(formatDistanceStrict(now, start));
+    } else if (isBefore(now, end)) {
+      setStatus('running');
+      setTimeLeft(formatDistanceStrict(now, end));
+    } else if(isBefore(end, now)){
+      setStatus('finished');
+      setTimeLeft('');
+    } else{
+        setStatus('');
+        setTimeLeft('');
+    }
   }, [contest]);
 
   let userIsRegistered = true;
@@ -144,7 +145,20 @@ export default function ContestBanner({ contest }: { contest: any}) {
                 </span>
               </Button>
           )}
-          <Button variant="outline" size="icon" className='px-6 py-5 h-12'>
+          <Button variant="outline" size="icon" className='px-6 py-5 h-12'onClick={() => {
+            if (!contest) return;
+            const url = generateGoogleCalendarLink({
+              name: contest.name,
+              description: `💥Join us⚔️!
+🔗 Event link: ${window.location.href}
+📺 Youtube channel: https://www.youtube.com/@fcihashira
+☎️ Discord: https://www.discord.gg/thBtZumR4k`,
+              startDateTime: contest.startDateTime,
+              period: contest.period,
+              isOnline: contest.isOnline
+            });
+            window.open(url, '_blank');
+          }}>
             <CalendarIcon className="text-lg" />
           </Button>
 
