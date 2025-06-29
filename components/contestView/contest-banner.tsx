@@ -1,9 +1,16 @@
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
-import { Users2, CalendarIcon, Clock, Flame, DoorClosedLocked, Trophy } from 'lucide-react';
-import { FaDiscord, FaYoutube } from 'react-icons/fa';
+import { Users2, CalendarIcon, Clock, Flame, DoorClosedLocked, Trophy, Copy } from 'lucide-react';
+import { FaDiscord, FaLongArrowAltRight, FaYoutube } from 'react-icons/fa';
 import { TbBrandLinktree } from "react-icons/tb";
 import { useEffect, useState } from 'react';
+import { FaRankingStar } from "react-icons/fa6";
+import { GiPointySword, GiSwordSlice } from "react-icons/gi";
+import { HiPencilAlt } from "react-icons/hi";
+import { IoIosCheckmarkCircle } from "react-icons/io";
+import { RiShareForwardLine } from "react-icons/ri";
+
 import { formatDistanceStrict, isBefore, isAfter } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -25,35 +32,37 @@ export default function ContestBanner({ contest }: { contest: any}) {
     const start = new Date(contest?.startDateTime);
     const end = new Date(start.getTime() + durationInHours * 3600 * 1000);
 
-    if (isBefore(now, regEnd)) {
+    // if (isBefore(now, regEnd)) {
       setStatus('registering');
-      setTimeLeft(formatDistanceStrict(now, regEnd));
-    } else if (isBefore(now, start)) {
-      setStatus('waiting');
-      setTimeLeft(formatDistanceStrict(now, start));
-    } else if (isBefore(now, end)) {
-      setStatus('running');
-      setTimeLeft(formatDistanceStrict(now, end));
-    } else if(isBefore(end, now)){
-      setStatus('finished');
-      setTimeLeft('');
-    } else{
-        setStatus('');
-        setTimeLeft('');
-    }
+    //   setTimeLeft(formatDistanceStrict(now, regEnd));
+    // } else if (isBefore(now, start)) {
+      // setStatus('waiting');
+    //   setTimeLeft(formatDistanceStrict(now, start));
+    // } else if (isBefore(now, end)) {
+      // setStatus('running');
+    //   setTimeLeft(formatDistanceStrict(now, end));
+    // } else if(isBefore(end, now)){
+    //   setStatus('finished');
+    //   setTimeLeft('');
+    // } else{
+    //     setStatus('');
+    //     setTimeLeft('');
+    // }
   }, [contest]);
+
+  let userIsRegistered = true;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center w-full">
       <div className="col-span-6 space-y-3">
         <div className="flex items-center space-x-2 text-muted-foreground text-sm">
           <Users2 className="w-4 h-4" />
-          {contest?.registers ? <span>{contest.registers.length} Competitors</span> : <Skeleton className="h-4 w-28" />}
+          {contest?.registers>=0 ? <span>{contest.registers} Competitors</span> : <Skeleton className="h-4 w-28" />}
         </div>
 
         <div>
           {status === 'registering' && (
-            <p className="text-red-500 font-medium">
+            <p className="text-[#ff0056] font-medium">
               Registration is open until {new Date(contest?.registrationEndDate).toLocaleString()}
               <span className="flex items-center space-x-2 text-s text-gray-500">
                 <Clock className="w-4 h-4" /> <span>{timeLeft} left for registration to close</span>
@@ -69,7 +78,7 @@ export default function ContestBanner({ contest }: { contest: any}) {
             </p>
           )}
           {status === 'running' && (
-            <p className="text-green-600 font-medium">
+            <p className="text-[#00d590] font-medium">
               Contest is running. Ends at {new Date(contest?.endDate).toLocaleString()}
               <span className="flex items-center space-x-2 text-s text-gray-500">
                 <Flame className="w-4 h-4" /> <span>{timeLeft} left for contest to finish</span>
@@ -85,17 +94,72 @@ export default function ContestBanner({ contest }: { contest: any}) {
         </div>
 
         <h1 className="text-4xl font-extrabold text-foreground">
-          {contest?.name ? contest.name : <Skeleton className="h-8 w-2/3" />}
+          {contest?.name ? contest.name : <Skeleton className="h-12 w-4/5" />}
         </h1>
 
         <div className="text-muted-foreground whitespace-pre-line text-base">
-          {contest?.description ? contest.description : <Skeleton className="h-4 w-2/3" />}
+          {contest?.description ? contest.description : <Skeleton className="h-60 w-1/1" />}
         </div>
 
-        <div className="flex flex-wrap items-center gap-4 my-6">
-          <Button className="bg-[#00d590] text-black hover:bg-[#00c485] px-8 py-3 text-base h-12">Action Button</Button>
-          <Button variant="outline" size="icon" className='px-6 h-12'>
-            <CalendarIcon className="text-4xl" />
+        <div className="flex flex-wrap items-center gap-3 my-6">
+          {status === '' && (
+              <>
+                <Skeleton className="h-13 w-2/5" />
+              </>
+          )}
+          {status !== '' && (
+              <Button className="bg-[#00d590] text-black hover:bg-[#00c185] px-4 py-3 text-lg h-12">
+                <span className='flex items-center space-x-2'>
+                  {status === 'registering' && (
+                      <>
+                        <span>Join The Competition</span>
+                      </>
+                  )}
+                  {status === 'waiting' && userIsRegistered && (
+                      <>
+                        <HiPencilAlt /> <span>Complete Registeration</span>
+                      </>
+                  )}
+                  {status === 'waiting' && !userIsRegistered && (
+                      <>
+                        <GiPointySword /> <span>View The Arena</span>
+                      </>
+                  )}
+                  {status === 'running' && userIsRegistered && (
+                      <>
+                        <GiSwordSlice /> <span>Enter The Arena</span>
+                      </>
+                  )}
+                  {status === 'running' && !userIsRegistered && (
+                      <>
+                        <GiPointySword /> <span>Watch The Contest</span>
+                      </>
+                  )}
+                  {status === 'finished' && (
+                      <>
+                        <FaRankingStar /> <span>See Resutls</span>
+                      </>
+                  )}
+                  <FaLongArrowAltRight />
+                </span>
+              </Button>
+          )}
+          <Button variant="outline" size="icon" className='px-6 py-5 h-12'>
+            <CalendarIcon className="text-lg" />
+          </Button>
+
+          <Button className="px-6 py-5 h-12" size="icon"
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+              toast.success('Contest Link is Copied!', {
+                className: 'my-classname',
+                description: 'Contest URL is now in your clipboard. Share it with your firends, or you fear of competing them 😉',
+                duration: 3000,
+                icon: <IoIosCheckmarkCircle className='text-2xl text-[#00ac76]' />
+              });
+            }}
+          >
+              <Copy className="w-4 h-4" />
           </Button>
         </div>
 

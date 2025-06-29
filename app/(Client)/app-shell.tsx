@@ -4,6 +4,7 @@
 // import { ThemeSwitcher } from '@/components/theme-switcher';
 import { Container } from './contrainer';
 import Link from 'next/link';
+import { Toaster } from 'sonner';
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   return (
@@ -18,6 +19,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <main className="flex-1">
         <Container className="py-10">
           {children}
+          <Toaster position="top-center" />
         </Container>
       </main>
 
