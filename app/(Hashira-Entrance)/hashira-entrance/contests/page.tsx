@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { getRootDomain } from '@/lib/routingUtils';
 
 const formatDiff = (date: Date) => {
     const now = new Date();
@@ -102,8 +103,8 @@ export default function ContestDashboard() {
                 <Link href={`/contests/${contest._id}/edit`} className='column is-one-third'>
                   <button className="button is-warning is-meduim is-fullwidth">Edit</button>
                 </Link>
-                <Link href={``} className='column is-one-third'>
-                    <button className="button is-info is-meduim is-fullwidth" disabled>View</button>
+                <Link href={`${getRootDomain()}/contests/${contest._id}`} className='column is-one-third'>
+                    <button className="button is-info is-meduim is-fullwidth">View</button>
                 </Link>
               </div>
               <div className="buttons grid">
