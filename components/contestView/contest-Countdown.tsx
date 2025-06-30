@@ -36,8 +36,11 @@ export default function ContestCountdown({ contest }: { contest: any }) {
       } else if (isBefore(now, end)) {
         setStatus('running');
         setTimeLeft(differenceInSeconds(end, now));
-      } else {
+      }  else if(isBefore(end, now)){
         setStatus('finished');
+        setTimeLeft(0);
+      } else{
+        setStatus('');
         setTimeLeft(0);
       }
       setLoadedTime(true);
