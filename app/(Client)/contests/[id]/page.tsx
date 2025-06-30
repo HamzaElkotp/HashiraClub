@@ -13,8 +13,8 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
   const contest:any = await getContestById(params.id);
 
   return {
-    title: contest?.name || 'CompeteX Contest',
-    description: contest?.description || 'Join this programming contest on CompeteX!',
+    title: contest?.name,
+    description: contest?.description,
     openGraph: {
       title: contest?.name,
       description: contest?.description,
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
       type: 'website',
       images: [
         {
-          url: contest?.banner || 'https://yourdomain.com/default-banner.png',
+          url: contest?.banner,
           width: 1200,
           height: 630,
           alt: contest?.name,
