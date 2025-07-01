@@ -6,9 +6,11 @@ import { useParams } from 'next/navigation';
 import ContestBanner from '@/components/contestView/contest-banner';
 import Scroll from '@/components/contestView/banner/scroll';
 import ContestCountdown from '@/components/contestView/contest-Countdown';
+import ContestContent from '@/components/contestView/contest-content';
 
 
 import { ContestForm } from '@/types/contest';
+
 
 // const params = useParams<{ id: string }>();
 
@@ -36,6 +38,7 @@ useEffect(() => {
         <ContestBanner contest={contestData || {}} />
         <Scroll id={"contest-timer"}/>
         <ContestCountdown contest={contestData || {}} />
+        <ContestContent contest={contestData || {}} />
     </>
   );
 }

@@ -60,9 +60,9 @@ export default function ContestCountdown({ contest }: { contest: any }) {
   const { days, hours, minutes, secs } = formatTime(timeLeft);
 
   return (
-    <div className="relative w-full text-center flex flex-col items-center justify-center gap-6 mt-10 border border-white/20 rounded-xl p-8 overflow-hidden" id='contest-timer'>
+    <div className="relative w-full text-center flex flex-col items-center justify-center gap-6 mt-10 border dark:border-white/20 border-black/50 rounded-xl p-8 overflow-hidden" id='contest-timer'>
         <div
-            className="absolute inset-0 opacity-35"
+            className="absolute inset-0 dark:opacity-35 opacity-90"
             style={{
             backgroundImage: `URL(${contest.image})`,
             backgroundSize: "cover",
@@ -73,7 +73,7 @@ export default function ContestCountdown({ contest }: { contest: any }) {
 
         {/* Content Layer */}
         <div className="relative z-10">
-            <div className={'font-bold mb-6 text-gray-800 dark:text-gray-200'}>
+            <div className={'font-bold mb-6 text-gray-200 dark:text-gray-200'}>
                 {status === 'registering' && (
                     <p className='text-4xl'>Registration is Open ⚔️</p>
                 )}
@@ -100,10 +100,10 @@ export default function ContestCountdown({ contest }: { contest: any }) {
                     { label: 'Seconds', value: String(secs).padStart(2, '0') },
                 ].map((item) => (
                     <div key={item.label} className="flex flex-col items-center">
-                        <div className="text-gray-700 dark:text-gray-300 font-medium uppercase text-xs tracking-wider mb-2">
+                        <div className="text-gray-200 dark:text-gray-300 font-medium uppercase text-xs tracking-wider mb-2">
                             {item.label}
                         </div>
-                        <div className="text-gray-800 dark:text-gray-300 text-5xl md:text-7xl font-bold font-mono">
+                        <div className="text-gray-200 dark:text-gray-300 text-5xl md:text-7xl font-bold font-mono">
                             {loadedTime ? item.value : <Skeleton className="w-20 h-18 mx-auto" />}
                         </div>
                     </div>
