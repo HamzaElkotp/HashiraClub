@@ -24,14 +24,14 @@ function ContestInfo({ form, setForm, setStep, currentStep }: any) {
       </div>
 
       <div className="field">
-          <label className="label">Description</label>
+          <label className="label">Description *</label>
             <textarea wrap="hard"
             rows={5} className="textarea" name="description" 
-            value={form.description} onChange={handleChange(setForm)}/>
+            value={form.description} onChange={handleChange(setForm)} required/>
       </div>
 
       <div className="field">
-          <label className="label">Content (Markdown) *</label>
+          <label className="label">Content (Markdown)</label>
             <textarea wrap="hard"
             rows={5} className="textarea" name="content" 
             value={form.content} onChange={handleChange(setForm)} required/>

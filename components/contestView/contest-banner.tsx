@@ -15,6 +15,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function ContestBanner({ contest }: { contest: any}) {
   const [timeLeft, setTimeLeft] = useState('');
+  const [endDate, setendDate] = useState<Date>();
   const [status, setStatus] = useState<'registering' | 'waiting' | 'running' | 'finished' | ''>('');
   const [category, setCategory] = useState<any>();
     
@@ -45,6 +46,7 @@ export default function ContestBanner({ contest }: { contest: any}) {
     const regEnd = new Date(contest?.registrationEndDate);
     const start = new Date(contest?.startDateTime);
     const end = new Date(start.getTime() + durationInHours * 3600 * 1000);
+    setendDate(end)
 
     if (isBefore(now, regEnd)) {
       setStatus('registering');
@@ -74,7 +76,7 @@ export default function ContestBanner({ contest }: { contest: any}) {
           {contest?.registers>=0 ? <span>{contest.registers} Competitors</span> : <Skeleton className="h-4 w-28" />}
         </div>
 
-        <Status status={status} timeLeft={timeLeft} registrationEndDate={contest.registrationEndDate} startDate={contest.startDateTime} endDate={contest.endDate}/>
+        <Status status={status} timeLeft={timeLeft} registrationEndDate={contest.registrationEndDate} startDate={contest.startDateTime} endDate={endDate || new Date()}/>
 
         <h2 className="text-base text-gray-600 dark:text-gray-400 font-medium my-1 underline">
           {category?.name ? <a href=''>{category.name}</a> : <Skeleton className="h-5 w-1/3" />}

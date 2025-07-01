@@ -1,7 +1,7 @@
 import { Clock, Flame, DoorClosedLocked, Trophy } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 
-export default function Status({status, timeLeft, registrationEndDate, startDate, endDate}:{status:string, timeLeft:string, registrationEndDate:string, startDate:string, endDate:string}){
+export default function Status({status, timeLeft, registrationEndDate, startDate, endDate}:{status:string, timeLeft:string, registrationEndDate:string, startDate:string, endDate:Date}){
     return (
         <div>
           {status === 'registering' && (
@@ -22,7 +22,7 @@ export default function Status({status, timeLeft, registrationEndDate, startDate
           )}
           {status === 'running' && (
             <p className="text-[#00d590] font-medium">
-              Contest is running. Ends at {new Date(endDate).toLocaleString()}
+              Contest is running. Ends at {endDate.toLocaleString()}
               <span className="flex items-center space-x-2 text-s text-gray-500">
                 <Flame className="w-4 h-4" /> <span>{timeLeft} left for contest to finish</span>
               </span>
