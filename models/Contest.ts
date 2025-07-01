@@ -2,8 +2,9 @@ import mongoose, { Schema } from 'mongoose';
 
 const ContestSchema = new Schema({
   name: { type: String, required: true },
+  about: { type: String, required: true },
   description: { type: String, required: true },
-  content: { type: String, required: true },
+  content: { type: String },
   banner: { type: String, required: true },
   image: { type: String, required: true },
   publishDate: { type: Date },

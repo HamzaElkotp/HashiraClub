@@ -17,10 +17,17 @@ function ContestInfo({ form, setForm, setStep, currentStep }: any) {
       </div>
 
       <div className="field">
-          <label className="label">Description *</label>
+          <label className="label">About *</label>
+            <textarea wrap="hard"
+            rows={5} className="textarea" name="about" 
+            value={form.about} onChange={handleChange(setForm)} required/>
+      </div>
+
+      <div className="field">
+          <label className="label">Description</label>
             <textarea wrap="hard"
             rows={5} className="textarea" name="description" 
-            value={form.description} onChange={handleChange(setForm)} required/>
+            value={form.description} onChange={handleChange(setForm)}/>
       </div>
 
       <div className="field">

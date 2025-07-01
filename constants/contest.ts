@@ -1,5 +1,6 @@
 const defaultContest = {
   name: '',
+  about: '',
   content: '',
   description: '',
   banner: '',
@@ -31,7 +32,7 @@ const defaultContest = {
   registers: 0
 };
 
-const allRegions = ['Global', 'MENA', 'Africa', 'Gulf Countries', 'Arab', 'Egypt', 'Saudi Arabia'];
+const allRegions = ['Global', 'MENA', 'Africa', 'Gulf Countries', 'Arab', 'Egypt', 'Saudi Arabia', 'Competing Associations'];
 // const categories = ['Math', 'Science', 'Coding', 'Design'];
 
 // const defaultContest = {

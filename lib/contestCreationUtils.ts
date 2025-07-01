@@ -26,8 +26,8 @@ function handleChange(setForm: React.Dispatch<React.SetStateAction<any>>) {
 
 function validateInfo(errors: string[], form: any){
   if (!form.name.trim()) errors.push("Name is required.");
+  if (!form.about.trim()) errors.push("About is required.");
   if (!form.description.trim()) errors.push("Description is required.");
-  if (!form.content.trim()) errors.push("Content is required.");
   if (!form.banner) errors.push("Banner is required.");
   if (!form.image) errors.push("Image is required.");
 }

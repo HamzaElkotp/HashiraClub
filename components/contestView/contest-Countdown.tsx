@@ -84,10 +84,10 @@ export default function ContestCountdown({ contest }: { contest: any }) {
                     </p>
                 )}
                 {status === 'running' && (
-                    <p>💥 Contest is Live!</p>
+                    <p className='text-4xl'>💥 Contest is Live!</p>
                 )}
                 {status === 'finished' && (
-                    <p>Contest has Finished 🏆</p>
+                    <p className='text-4xl'>Contest has Finished 🏆</p>
                 )}
                 {status === '' && <Skeleton className="w-120 h-15 mx-auto" />}
             </div>

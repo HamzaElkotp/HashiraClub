@@ -1,5 +1,6 @@
 export type ContestForm = {
   name: string;
+  about: String,
   description: string;
   content: string;
   banner: string;
