@@ -18,11 +18,11 @@ export default function ClientLayout({children,}: {children: React.ReactNode;}) 
         {/* <NextSeo {...SEO}/> */}
       </head>
       <body className={inter.className}>
-        {/* <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Providers> */}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Providers>
             {children}
-          {/* </Providers>
-        </ThemeProvider> */}
+          </Providers>
+        </ThemeProvider>
       </body>
     </html>
   );

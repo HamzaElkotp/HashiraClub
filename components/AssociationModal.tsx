@@ -1,7 +1,6 @@
 'use client';
 import { Association } from '@/models/Association';
 import { useState } from 'react';
-import ReactMarkdown from 'react-markdown';
 
 export default function AssociationModal({ onClose, onSucess, mode, preList }: { onClose: () => void, onSucess: () => void, mode:string, preList:any }) {
   const [form, setForm] = useState(preList?.editingAssociation || {
@@ -79,12 +78,8 @@ export default function AssociationModal({ onClose, onSucess, mode, preList }: {
           </div>
 
           <div className="field">
-            <label className="label">Description (Markdown) *</label>
+            <label className="label">Description *</label>
             <textarea className="textarea" name="description" value={form.description} onChange={handleChange}></textarea>
-            <p className="help mt-2"><strong>Preview:</strong></p>
-            <div className="content box" style={{ minHeight: '100px' }}>
-                <ReactMarkdown>{form.description}</ReactMarkdown>
-            </div>
           </div>
 
           <div className="field">
