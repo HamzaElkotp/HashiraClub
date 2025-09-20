@@ -1,34 +1,31 @@
 import { NextResponse } from "next/server";
 
 export const config = {
-  matcher: [
-    "/((?!api/|_next/|_static/|_vercel|[\\w-]+\\.\\w+).*)",
-  ],
+  matcher: ["/((?!api/|_next/|_static/|_vercel|[\\w-]+\\.\\w+).*)"],
 };
 
-export default async function middleware(req: Request) {
+export default function middleware(req: Request) {
   const url = new URL(req.url);
-  const hostname =  req.headers.get("host") || "";
+  const hostname = req.headers.get("host") || "";
 
-  let subdomain = "", domain = hostname;
-  let splittedHostname = hostname.split('.');
+  // Base environment domain → e.g. "dev.hashiraclub.com" or "staging.hashiraclub.com" or "hashiraclub.com"
+  const baseDomain = new URL(process.env.NEXT_PUBLIC_ORIGIN!).hostname;
 
-  if(splittedHostname.length == 1 && hostname.includes("localhost") 
-    || (splittedHostname.length == 2 && !hostname.includes("localhost"))){
-    return NextResponse.rewrite(new URL( req.url))
-  } else if(splittedHostname.length == 2){
-    subdomain = splittedHostname[0];
-    domain = splittedHostname[1];
-  } else if(splittedHostname.length == 3){
-    subdomain = splittedHostname[0];
-    domain = `${splittedHostname[1]}.${splittedHostname[2]}`;
-  } else{
-    return new Response(null, { status: 404 });
+  // Remove the base domain from the end of the hostname
+  // Example: "auth.dev.hashiraclub.com".replace(".dev.hashiraclub.com", "") → "auth"
+  let subdomain = "";
+  if (hostname === baseDomain || hostname === `www.${baseDomain}`) {
+    // no tenant (root env domain)
+    return NextResponse.next();
+  } else if (hostname.endsWith(`.${baseDomain}`)) {
+    subdomain = hostname.replace(`.${baseDomain}`, "");
   }
 
-  // Don't rewrite for root domain
-  if (!subdomain || ['www'].includes(subdomain)) {
+  // If still no subdomain → just continue
+  if (!subdomain) {
     return NextResponse.next();
   }
+
+  // Rewrite to /{tenant}/path
   return NextResponse.rewrite(new URL(`/${subdomain}${url.pathname}`, req.url));
 }
