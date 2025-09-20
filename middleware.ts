@@ -1,34 +1,47 @@
 import { NextResponse } from "next/server";
 
 export const config = {
-  matcher: [
-    "/((?!api/|_next/|_static/|_vercel|[\\w-]+\\.\\w+).*)",
-  ],
+  matcher: ["/((?!api/|_next/|_static/|_vercel|[\\w-]+\\.\\w+).*)"],
 };
 
-export default async function middleware(req: Request) {
-  const url = new URL(req.url);
-  const hostname =  req.headers.get("host") || "";
+const VALID_TENANTS = ["hashira-entrance", "auth", "myaccount"];
 
-  let subdomain = "", domain = hostname;
-  let splittedHostname = hostname.split('.');
+export default function middleware(req: Request) {
+    const url = new URL(req.url);
+    const hostHeader = req.headers.get("host") || "";
+    const hostNoPort = hostHeader.replace(/:\d+$/, ""); // remove port for localhost
 
-  if(splittedHostname.length == 1 && hostname.includes("localhost") 
-    || (splittedHostname.length == 2 && !hostname.includes("localhost"))){
-    return NextResponse.rewrite(new URL( req.url))
-  } else if(splittedHostname.length == 2){
-    subdomain = splittedHostname[0];
-    domain = splittedHostname[1];
-  } else if(splittedHostname.length == 3){
-    subdomain = splittedHostname[0];
-    domain = `${splittedHostname[1]}.${splittedHostname[2]}`;
-  } else{
-    return new Response(null, { status: 404 });
-  }
+    // Normalize NEXT_PUBLIC_ORIGIN
+    const originEnv = process.env.NEXT_PUBLIC_ORIGIN || "";
+    let baseHost = "";
+    try {
+        baseHost = new URL(originEnv).hostname;
+    } catch {
+        baseHost = new URL(`http://${originEnv}`).hostname;
+    }
 
-  // Don't rewrite for root domain
-  if (!subdomain || ['www'].includes(subdomain)) {
-    return NextResponse.next();
-  }
-  return NextResponse.rewrite(new URL(`/${subdomain}${url.pathname}`, req.url));
+    // 1) Root domain
+    if (hostNoPort === baseHost || hostNoPort === `www.${baseHost}`) {
+        const pathSegment = url.pathname.split("/")[1];
+        if (VALID_TENANTS.includes(pathSegment)) {
+            return NextResponse.rewrite(new URL("/404", req.url));
+        }
+        return NextResponse.next();
+    }
+
+    // 2) Tenant subdomain
+    if (hostNoPort.endsWith(`.${baseHost}`)) {
+        const subdomain = hostNoPort.replace(`.${baseHost}`, "");
+
+        if (!VALID_TENANTS.includes(subdomain)) {
+            return NextResponse.rewrite(new URL("/404", req.url));
+        }
+
+        return NextResponse.rewrite(
+            new URL(`/${subdomain}${url.pathname}${url.search}`, req.url)
+        );
+    }
+
+    // 3) Otherwise → 404
+    return NextResponse.rewrite(new URL("/404", req.url));
 }

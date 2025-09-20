@@ -12,7 +12,7 @@ export async function connectToDatabase() {
   }
 
   try {
-    await mongoose.connect(uri, { dbName: 'HashiraClubSystem' });
+    await mongoose.connect(uri);
     isConnected = true;
     console.log('MongoDB connected');
   } catch (error) {
