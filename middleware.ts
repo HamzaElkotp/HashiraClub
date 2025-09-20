@@ -4,28 +4,45 @@ export const config = {
   matcher: ["/((?!api/|_next/|_static/|_vercel|[\\w-]+\\.\\w+).*)"],
 };
 
+const VALID_TENANTS = ["hashira-entrance", "auth", "myaccount"];
+
 export default function middleware(req: Request) {
   const url = new URL(req.url);
-  const hostname = req.headers.get("host") || "";
+  const hostHeader = req.headers.get("host") || "";
+  const hostNoPort = hostHeader.replace(/:\d+$/, ""); // remove port for localhost
 
-  // Base environment domain → e.g. "dev.hashiraclub.com" or "staging.hashiraclub.com" or "hashiraclub.com"
-  const baseDomain = new URL(process.env.NEXT_PUBLIC_ORIGIN!).hostname;
-
-  // Remove the base domain from the end of the hostname
-  // Example: "auth.dev.hashiraclub.com".replace(".dev.hashiraclub.com", "") → "auth"
-  let subdomain = "";
-  if (hostname === baseDomain || hostname === `www.${baseDomain}`) {
-    // no tenant (root env domain)
-    return NextResponse.next();
-  } else if (hostname.endsWith(`.${baseDomain}`)) {
-    subdomain = hostname.replace(`.${baseDomain}`, "");
+  // Normalize NEXT_PUBLIC_ORIGIN
+  const originEnv = process.env.NEXT_PUBLIC_ORIGIN || "";
+  let baseHost = "";
+  try {
+    baseHost = new URL(originEnv).hostname;
+  } catch {
+    baseHost = new URL(`http://${originEnv}`).hostname;
   }
 
-  // If still no subdomain → just continue
-  if (!subdomain) {
+  // 1) Root domain
+  if (hostNoPort === baseHost || hostNoPort === `www.${baseHost}`) {
+    // 🚫 Prevent accessing tenant via path (e.g. /auth, /myaccount)
+    const pathSegment = url.pathname.split("/")[1];
+    if (VALID_TENANTS.includes(pathSegment)) {
+      return new NextResponse("Not Found", { status: 404 });
+    }
     return NextResponse.next();
   }
 
-  // Rewrite to /{tenant}/path
-  return NextResponse.rewrite(new URL(`/${subdomain}${url.pathname}`, req.url));
+  // 2) Tenant subdomain
+  if (hostNoPort.endsWith(`.${baseHost}`)) {
+    const subdomain = hostNoPort.replace(`.${baseHost}`, "");
+
+    if (!VALID_TENANTS.includes(subdomain)) {
+      return new NextResponse("Not Found", { status: 404 });
+    }
+
+    return NextResponse.rewrite(
+      new URL(`/${subdomain}${url.pathname}${url.search}`, req.url)
+    );
+  }
+
+  // 3) Otherwise → 404
+  return new NextResponse("Not Found", { status: 404 });
 }
