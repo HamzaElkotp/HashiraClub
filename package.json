@@ -7,11 +7,9 @@
     "dev:remote": "dotenv -e .env.dev -- next dev --turbopack",
     "staging": "dotenv -e .env.staging -- next dev --turbopack",
     "prod": "dotenv -e .env.production -- next dev --turbopack",
-
     "build": "next build",
     "build:staging": "dotenv -e .env.staging -- next build",
     "build:prod": "dotenv -e .env.production -- next build",
-    
     "start": "next start",
     "lint": "next lint"
   },
@@ -31,7 +29,7 @@
     "lucide-react": "^0.525.0",
     "marked": "^16.0.0",
     "mongoose": "^8.15.1",
-    "next": "15.3.3",
+    "next": "15.3.8",
     "next-seo": "^6.8.0",
     "next-themes": "^0.4.6",
     "react": "^19.0.0",
