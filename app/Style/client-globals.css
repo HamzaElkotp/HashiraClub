@@ -132,3 +132,11 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+ul{
+  margin-left: 10px;
+}
+
+ul li {
+  list-style: decimal !important;
+}

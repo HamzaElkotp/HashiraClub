@@ -3,15 +3,16 @@ import { FaRankingStar } from "react-icons/fa6";
 import { GiPointySword, GiSwordSlice } from "react-icons/gi";
 import { HiPencilAlt } from "react-icons/hi";
 import { FaLongArrowAltRight } from 'react-icons/fa';
+import Link from 'next/link';
 
 
 export default function ActionButton({status, userIsRegistered}:{status:string, userIsRegistered:boolean}){
     return (
-        <Button className="bg-[#00d590] text-black hover:bg-[#00c185] px-4 py-3 text-lg h-12">
+        <Link className="bg-[#00d590] text-black hover:bg-[#00c185] px-4 py-3 text-lg h-12" href={"https://discord.gg/ev8f2N58?event=1464598678789423132"}>
             <span className='flex items-center space-x-2'>
                 {status === 'registering' && (
                     <>
-                    <span>Join The Competition</span>
+                    <span>Join The Event</span>
                     </>
                 )}
                 {status === 'waiting' && userIsRegistered && (
@@ -31,7 +32,7 @@ export default function ActionButton({status, userIsRegistered}:{status:string, 
                 )}
                 {status === 'running' && !userIsRegistered && (
                     <>
-                    <GiPointySword /> <span>Watch The Contest</span>
+                    <GiPointySword /> <span>Watch The Podcast</span>
                     </>
                 )}
                 {status === 'finished' && (
@@ -41,6 +42,6 @@ export default function ActionButton({status, userIsRegistered}:{status:string, 
                 )}
                 <FaLongArrowAltRight />
             </span>
-        </Button>
+        </Link>
     )
 }

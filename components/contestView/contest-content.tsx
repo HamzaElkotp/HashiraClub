@@ -18,7 +18,7 @@ export default function ContestContent({ contest }: { contest: any }) {
       { content && (
         
         <article  className="prose prose-slate dark:prose-invert max-w-none">
-          <h1 className='font-bold mb-10 text-gray-800 dark:text-gray-200 text-5xl'>Contest Details</h1>
+          <h1 className='font-bold mb-10 text-gray-800 dark:text-gray-200 text-5xl'>Podcast Details</h1>
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
         </article >
       )}

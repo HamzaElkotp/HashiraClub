@@ -80,14 +80,14 @@ export default function ContestCountdown({ contest }: { contest: any }) {
                 {status === 'waiting' && (
                     <p className='flex flex-col gap-2'>
                         <span className='text-4xl'>Get Ready! ⚔️</span>
-                        <span className='text-lg'>Contest will Start Soon 🔥</span>
+                        <span className='text-lg'>Podcast will Start Soon 🔥</span>
                     </p>
                 )}
                 {status === 'running' && (
-                    <p className='text-4xl'>💥 Contest is Live!</p>
+                    <p className='text-4xl'>💥 Podcast is Live!</p>
                 )}
                 {status === 'finished' && (
-                    <p className='text-4xl'>Contest has Finished 🏆</p>
+                    <p className='text-4xl'>Podcast has Finished 🏆</p>
                 )}
                 {status === '' && <Skeleton className="w-1/1 h-15 mx-auto" />}
             </div>

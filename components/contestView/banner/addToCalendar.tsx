@@ -8,7 +8,7 @@ export default function AddToCalendar({ contest }: { contest: any}){
             if (!contest) return;
             const url = generateGoogleCalendarLink({
               name: contest.name,
-              description: `💥Join us⚔️!\n🔗 Event link: ${window.location.href}\n📺 Youtube channel: https://www.youtube.com/@fcihashira\n☎️ Discord: https://www.discord.gg/thBtZumR4k`,
+              description: `💥Join us⚔️!\n🔗 Podcast link: ${window.location.href}\n📺 Youtube channel: https://www.youtube.com/@fcihashira\n☎️ Discord: https://www.discord.gg/thBtZumR4k`,
               startDateTime: contest.startDateTime,
               period: contest.period,
               isOnline: contest.isOnline

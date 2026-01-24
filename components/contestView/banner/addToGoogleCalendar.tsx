@@ -2,6 +2,7 @@ import { googleCalendar } from "@/types/contest";
 
 export function generateGoogleCalendarLink(contest: googleCalendar) {
   const start = new Date(contest.startDateTime);
+  start.setHours(start.getHours() + 2);
   type PeriodUnit = 'halfHours' | 'days' | 'weeks';
     const units: Record<PeriodUnit, number> = {
       halfHours: 0.5,
